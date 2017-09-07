@@ -4,4 +4,16 @@
     <string name="email_address">Email Address</string>
     <string name="login">Login</string>
     <string name="go_to_register_message">Don\'t have an account? Join the pack!</string>
+    <string name="next">Next</string>
+    <string name="finish">Finish</string>
+    <string name="register">Register</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="address_line_1">Address Line 1</string>
+    <string name="address_line_2">Address Line 2</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="zip">Zip</string>
 </resources>
