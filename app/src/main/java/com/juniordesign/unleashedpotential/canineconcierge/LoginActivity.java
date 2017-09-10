@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 //Login failed, display error message
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(LoginActivity.this, "Login Failed" + task.getException(),
+                                    Toast.makeText(LoginActivity.this, "Login Failed, Password or username incorrect",
                                             Toast.LENGTH_SHORT).show();
                                 //Login successful, bring user to main page
                                 } else {

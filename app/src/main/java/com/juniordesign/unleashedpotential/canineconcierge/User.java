@@ -7,7 +7,6 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 
 public class User {
 
-    public String username;
     public String email;
     private String firstName;
     private String lastName;
@@ -18,8 +17,7 @@ public class User {
     private String address2;
     private String city;
 
-    public User(String username, String email, String firstName, String lastName, String zipCode, String state, String phoneNumber, String address1, String address2, String city) {
-        this.username = username;
+    public User(String email, String firstName, String lastName, String zipCode, String state, String phoneNumber, String address1, String address2, String city) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,19 +33,9 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String username, String email) {
-        this.username = username;
+    public User(String email) {
         this.email = email;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getEmail() {
         return email;
     }
