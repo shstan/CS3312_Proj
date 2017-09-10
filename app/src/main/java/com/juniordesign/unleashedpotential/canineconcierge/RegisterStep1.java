@@ -2,7 +2,6 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,13 +10,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterStep1 extends AppCompatActivity {
-    private EditText inputEmail, inputConfirmPassword, inputPassword;
+    private EditText inputEmail, inputConfirmPassword, inputFirstName, inputLastName, inputPassword;
     private Button btnSignUp;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
@@ -31,6 +27,8 @@ public class RegisterStep1 extends AppCompatActivity {
 
         btnSignUp = (Button) findViewById(R.id.to_register_step_2);
         inputEmail = (EditText) findViewById(R.id.email_address);
+        inputFirstName = (EditText) findViewById(R.id.first_name);
+        inputLastName = (EditText) findViewById(R.id.last_name);
         inputPassword = (EditText) findViewById(R.id.password);
         inputConfirmPassword = (EditText) findViewById(R.id.confirm_password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -45,7 +43,26 @@ public class RegisterStep1 extends AppCompatActivity {
 
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
+                String confirmPassword = inputConfirmPassword.getText().toString().trim();
+                final String firstName = inputFirstName.getText().toString().trim();
+                String lastName = inputLastName.getText().toString().trim();
 
+                if (TextUtils.isEmpty(confirmPassword)) {
+                    Toast.makeText(getApplicationContext(), "Confirm Password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(firstName)) {
+                    Toast.makeText(getApplicationContext(), "Enter First Name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(lastName)) {
+                    Toast.makeText(getApplicationContext(), "Enter Last Name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!(password.equals(confirmPassword))) {
+                    Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address", Toast.LENGTH_SHORT).show();
                     return;
@@ -55,25 +72,16 @@ public class RegisterStep1 extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter the password", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 //start showing progress bar
                 progressBar.setVisibility(View.VISIBLE);
-                //create user
-                auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(RegisterStep1.this, new OnCompleteListener<AuthResult>() {
-
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                // display message if login fails
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(RegisterStep1.this, "Authentication failed." + task.getException(),
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
-                                    //otherwise go to login page
-                                    startActivity(loginInt);
-                                    finish();
-                                }
-                            }
-                        });
+                Intent step2 = new Intent(RegisterStep1.this, RegisterStep2.class);
+                step2.putExtra("email", email);
+                step2.putExtra("password", password);
+                step2.putExtra("last_name", lastName);
+                step2.putExtra("first_name", firstName);
+                startActivity(step2);
+                finish();
 
             }
         });

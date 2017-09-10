@@ -16,15 +16,22 @@
         android:text="Sign Out"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="449dp"
-        app:layout_constraintHorizontal_bias="0.185" />
+        tools:layout_editor_absoluteY="5dp"
+        app:layout_constraintHorizontal_bias="1.0" />
 
     <Button
         android:id="@+id/profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Profile"
-        tools:layout_editor_absoluteX="236dp"
-        tools:layout_editor_absoluteY="449dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="5dp" />
+    <Button
+        android:id="@+id/pass_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset Password"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="5dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -19,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private Button btnLogin;
     private FirebaseAuth auth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         inputEmail =  (EditText) findViewById(R.id.email_address);
         inputPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.login_button);
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,19 +47,17 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 //create user
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
 
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
+                                //Login failed, display error message
                                 if (!task.isSuccessful()) {
                                     Toast.makeText(LoginActivity.this, "Login Failed" + task.getException(),
                                             Toast.LENGTH_SHORT).show();
+                                //Login successful, bring user to main page
                                 } else {
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     finish();
@@ -68,11 +68,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public void login(View view) {
-        // TODO: attempt login
-        // TODO: print error on message screen if fails
     }
 
     public void beginRegistration(View view) {
