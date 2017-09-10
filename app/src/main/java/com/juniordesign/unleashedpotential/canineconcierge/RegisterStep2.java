@@ -21,7 +21,7 @@ public class RegisterStep2 extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private EditText inputZip, inputState, inputPhoneNumber, inputAddress1, inputAddress2, inputCity;
-    private Button btnSignUp;
+    private Button btnSignUp, btnBack;
     private DatabaseReference db;
 
     @Override
@@ -40,7 +40,16 @@ public class RegisterStep2 extends AppCompatActivity {
         inputAddress2 = (EditText) findViewById(R.id.addr_2);
         inputCity = (EditText) findViewById(R.id.city_input);
         btnSignUp = (Button) findViewById(R.id.button2);
+//        btnBack = (Button) findViewById(R.id.back_button);
 
+//        btnBack.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(RegisterStep2.this, RegisterStep1.class));
+//                finish();
+//
+//            }
+//        });
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +85,7 @@ public class RegisterStep2 extends AppCompatActivity {
                     return;
                 }
 
-                final User newUser = new User(email, password, firstName, lastName, zip, state, phoneNumber, address1, address2, city);
+                final User newUser = new User(email, firstName, lastName, zip, state, phoneNumber, address1, address2, city);
                 //create user/ user profile
                 auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(RegisterStep2.this, new OnCompleteListener<AuthResult>() {
@@ -85,7 +94,7 @@ public class RegisterStep2 extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 //If registering fails, display message
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(RegisterStep2.this, "Authentication failed." + task.getException(),
+                                    Toast.makeText(RegisterStep2.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     //Once user is authenticated, create profile based on UserID in firebase
