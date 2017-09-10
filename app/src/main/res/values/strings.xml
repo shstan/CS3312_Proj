@@ -16,4 +16,5 @@
     <string name="city">City</string>
     <string name="state">State</string>
     <string name="zip">Zip</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 </resources>
