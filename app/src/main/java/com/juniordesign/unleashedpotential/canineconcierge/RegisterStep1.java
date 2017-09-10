@@ -67,6 +67,10 @@ public class RegisterStep1 extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter email address", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(getApplicationContext(), "Enter valid email address", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if (TextUtils.isEmpty(password)) {
                     Toast.makeText(getApplicationContext(), "Enter the password", Toast.LENGTH_SHORT).show();
@@ -96,7 +100,6 @@ public class RegisterStep1 extends AppCompatActivity {
 
 
     public void goToRegisterStep2(View view) {
-        // TODO: validate user input
         startActivity(new Intent(RegisterStep1.this, RegisterStep2.class));
     }
 }
