@@ -41,4 +41,12 @@ public class ScheduleWalk extends AppCompatActivity {
 
     }
 
+    // TODO: update pack leader list on calendar selection
+
+    // TODO: display both pack leader name and walk time in listView
+
+    // TODO: handle onclick of pack leader
+    
+    // TODO: handle onclick of schedule walk button
+
 }
