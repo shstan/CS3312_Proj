@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ScheduleWalk.class));
-                finish();
             }
         });
 
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, CompletedWalks.class));
-                finish();
             }
         });
 
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, UpcomingWalks.class));
-                finish();
             }
         });
 
