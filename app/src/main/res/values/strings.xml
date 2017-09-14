@@ -17,4 +17,8 @@
     <string name="state">State</string>
     <string name="zip">Zip</string>
     <string name="title_activity_profile">ProfileActivity</string>
+    <string name="schedule_walk">Schedule a Walk</string>
+    <string name="completed_walks">Completed Walks</string>
+    <string name="upcoming_walks">Upcoming Walks</string>
+    <string name="welcome_message">Your one-stop service center for dogs</string>
 </resources>
