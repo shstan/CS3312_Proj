@@ -1,9 +1,16 @@
 package com.juniordesign.unleashedpotential.canineconcierge;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +22,32 @@ import java.util.List;
 public class ScheduleWalk extends AppCompatActivity {
 
     private ListView packLeadersList;
+    Button btnSchedule, pbutton;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schedule_walk);
 
+        btnSchedule = (Button) findViewById(R.id.finish_schedule_walk);
+
+        displayAvailablePackLeaders();
+
+        // Confirmation message onclick
+        btnSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: send Date, Time, Pack Leader info to dialog
+
+                displayAlertDialog();
+            }
+        });
+
+    }
+
+    // TODO: update pack leader list based on calendar date selection, defaults to today
+    public void displayAvailablePackLeaders() {
         packLeadersList = (ListView) findViewById(R.id.pack_leaders_list);
 
-        // Instantiating an array list
         List<String> availablePackLeaders = new ArrayList<String>();
         availablePackLeaders.add("foo");
         availablePackLeaders.add("bar");
@@ -38,15 +63,28 @@ public class ScheduleWalk extends AppCompatActivity {
                 availablePackLeaders );
 
         packLeadersList.setAdapter(arrayAdapter);
-
     }
 
-    // TODO: update pack leader list on calendar selection
+    public void displayAlertDialog() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ScheduleWalk.this);
+        alertBuilder.setTitle("Confirm dog walk?")
+                .setMessage("<Date> <Time> <Pack Leader>")
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // TODO: go to landing page? or payment page?
+                    }})
+                .setNegativeButton(android.R.string.no, null);
+
+        AlertDialog dialog = alertBuilder.create();
+        dialog.show();
+
+        pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setTextColor(Color.BLUE);
+    }
 
     // TODO: display both pack leader name and walk time in listView
 
-    // TODO: handle onclick of pack leader
-    
-    // TODO: handle onclick of schedule walk button
+    // TODO: handle onclick selection of pack leader
 
 }
