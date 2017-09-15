@@ -54,6 +54,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ScheduleWalk"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.ScheduleWalk" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CompletedWalks"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.CompletedWalks" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UpcomingWalks"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.UpcomingWalks" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
