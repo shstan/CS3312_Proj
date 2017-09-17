@@ -47,5 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void sendMessage(View view) {
+        Intent pay = new Intent(this, PaymentActivity.class);
+        startActivity(pay);
+    }
+
 
 }
