@@ -20,7 +20,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:text="Header"
+            android:text="NAME"
             android:textAlignment="viewEnd"
             android:textSize="18sp" />
 
@@ -38,6 +38,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
+            android:text="DATE"
             android:textAlignment="viewStart"
             android:textSize="18sp" />
 
@@ -66,10 +67,10 @@
                     android:id="@+id/start_label"
                     android:layout_width="57dp"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
+                    android:paddingBottom="2dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:paddingTop="8dp"
+                    android:paddingTop="4dp"
                     android:text="Start:"
                     android:textAlignment="textEnd" />
 
@@ -77,10 +78,10 @@
                     android:id="@+id/start_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
+                    android:paddingBottom="2dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:paddingTop="8dp"
+                    android:paddingTop="4dp"
                     android:text="TIME"
                     android:textAlignment="viewStart" />
 
@@ -99,7 +100,7 @@
                     android:paddingBottom="16dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:paddingTop="4dp"
+                    android:paddingTop="2dp"
                     android:text="End:"
                     android:textAlignment="textEnd" />
 
@@ -110,7 +111,7 @@
                     android:paddingBottom="16dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:paddingTop="4dp"
+                    android:paddingTop="2dp"
                     android:text="TIME"
                     android:textAlignment="viewStart" />
 
@@ -134,10 +135,10 @@
                     android:id="@+id/distance_label"
                     android:layout_width="98dp"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
+                    android:paddingBottom="2dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:paddingTop="8dp"
+                    android:paddingTop="4dp"
                     android:text="Distance:"
                     android:textAlignment="textEnd" />
 
@@ -145,11 +146,11 @@
                     android:id="@+id/distance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
+                    android:paddingBottom="2dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:paddingTop="8dp"
-                    android:text="XX miles"
+                    android:paddingTop="4dp"
+                    android:text="MILES"
                     android:textAlignment="viewStart" />
 
             </LinearLayout>
@@ -167,7 +168,7 @@
                     android:paddingBottom="16dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:paddingTop="4dp"
+                    android:paddingTop="2dp"
                     android:text="PackLeader:"
                     android:textAlignment="textEnd" />
 
@@ -178,7 +179,7 @@
                     android:paddingBottom="16dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:paddingTop="4dp"
+                    android:paddingTop="2dp"
                     android:text="NAME"
                     android:textAlignment="viewStart" />
 
