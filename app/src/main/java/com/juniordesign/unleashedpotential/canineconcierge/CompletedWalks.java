@@ -54,7 +54,10 @@ public class CompletedWalks extends AppCompatActivity {
 class completedListAdapter extends BaseAdapter {
 
     Context context;
+
+    // TODO: convert to list of walk data
     String[] data;
+
     private static LayoutInflater inflater = null;
 
     public completedListAdapter(Context context, String[] data) {
@@ -85,12 +88,30 @@ class completedListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
+
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.completed_walk_row, null);
-        TextView text = (TextView) vi.findViewById(R.id.text);
-        text.setText(data[position]);
+
+        // TODO: Set TextViews with proper data
+        TextView dogName = (TextView) vi.findViewById(R.id.dog_name);
+        dogName.setText("Fido");
+
+        TextView walkDate = (TextView) vi.findViewById(R.id.walk_date);
+        walkDate.setText(data[position]);
+
+        TextView startTime = (TextView) vi.findViewById(R.id.start_time);
+        startTime.setText("12:55 pm");
+
+        TextView endTime = (TextView) vi.findViewById(R.id.end_time);
+        endTime.setText("1:45 pm");
+
+        TextView distance = (TextView) vi.findViewById(R.id.distance_label);
+        distance.setText("1.1 miles");
+
+        TextView packLeader = (TextView) vi.findViewById(R.id.leader_name);
+        packLeader.setText("John");
+
         return vi;
     }
 }
