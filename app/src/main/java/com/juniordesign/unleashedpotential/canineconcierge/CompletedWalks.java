@@ -93,7 +93,7 @@ class completedListAdapter extends BaseAdapter {
         if (vi == null)
             vi = inflater.inflate(R.layout.completed_walk_row, null);
 
-        // TODO: Set TextViews with proper data
+        // TODO: Set TextViews with proper data by index/position of dataset
         TextView dogName = (TextView) vi.findViewById(R.id.dog_name);
         dogName.setText("Fido");
 
@@ -106,7 +106,7 @@ class completedListAdapter extends BaseAdapter {
         TextView endTime = (TextView) vi.findViewById(R.id.end_time);
         endTime.setText("1:45 pm");
 
-        TextView distance = (TextView) vi.findViewById(R.id.distance_label);
+        TextView distance = (TextView) vi.findViewById(R.id.distance);
         distance.setText("1.1 miles");
 
         TextView packLeader = (TextView) vi.findViewById(R.id.leader_name);
