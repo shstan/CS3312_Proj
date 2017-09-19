@@ -44,7 +44,8 @@ public class ScheduleWalk extends AppCompatActivity {
 
     }
 
-    // TODO: update pack leader list based on calendar date selection, defaults to today
+    // TODO: handle onclick of calendar date -> updates availablePackLeaders
+    // TODO: display both pack leader name and walk time in listView
     public void displayAvailablePackLeaders() {
         packLeadersList = (ListView) findViewById(R.id.pack_leaders_list);
 
@@ -65,6 +66,8 @@ public class ScheduleWalk extends AppCompatActivity {
         packLeadersList.setAdapter(arrayAdapter);
     }
 
+    // TODO: handle onclick selection of pack leader
+
     public void displayAlertDialog() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ScheduleWalk.this);
         alertBuilder.setTitle("Confirm dog walk?")
@@ -82,9 +85,4 @@ public class ScheduleWalk extends AppCompatActivity {
         pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         pbutton.setTextColor(Color.BLUE);
     }
-
-    // TODO: display both pack leader name and walk time in listView
-
-    // TODO: handle onclick selection of pack leader
-
 }
