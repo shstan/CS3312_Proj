@@ -76,6 +76,7 @@ public class ScheduleWalk extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // TODO: go to landing page? or payment page?
+                        // Answer: Payment.
                     }})
                 .setNegativeButton(android.R.string.no, null);
 
