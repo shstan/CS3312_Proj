@@ -9,11 +9,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     private Button btnScheduleWalk, btnCompletedWalks, btnUpcomingWalks;
+
     //private FirebaseAuth auth;
     //private String userEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +48,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+//        buttonPay.setOnClickListener(this);
+
     }
 
     public void sendMessage(View view) {
         Intent pay = new Intent(this, PaymentActivity.class);
         startActivity(pay);
     }
+
+
+
 
 
 }
