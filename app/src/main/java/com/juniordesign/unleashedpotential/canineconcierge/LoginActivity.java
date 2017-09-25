@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void beginRegistration(View view) {
-        Intent launchRegistration = new Intent(LoginActivity.this,RegisterStep1.class);
+        Intent launchRegistration = new Intent(LoginActivity.this,RegisterStep1Activity.class);
         startActivity(launchRegistration);
     }
 

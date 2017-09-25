@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class RegisterStep2 extends AppCompatActivity {
+public class RegisterStep2Activity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private EditText inputZip, inputState, inputPhoneNumber, inputAddress1, inputAddress2, inputCity;
@@ -79,19 +79,19 @@ public class RegisterStep2 extends AppCompatActivity {
                 final User newUser = new User(email, firstName, lastName, zip, state, phoneNumber, address1, address2, city);
                 //create user/ user profile
                 auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(RegisterStep2.this, new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(RegisterStep2Activity.this, new OnCompleteListener<AuthResult>() {
 
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 //If registering fails, display message
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(RegisterStep2.this, "Authentication failed." + task.getException(),
+                                    Toast.makeText(RegisterStep2Activity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     //Once user is authenticated, create profile based on UserID in firebase
                                     String uID = auth.getCurrentUser().getUid();
                                     db.child("users").child(uID).setValue(newUser);
-                                    startActivity(new Intent(RegisterStep2.this, MainActivity.class));
+                                    startActivity(new Intent(RegisterStep2Activity.this, MainActivity.class));
                                 }
                             }
                         });

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class RegisterStep1 extends AppCompatActivity {
+public class RegisterStep1Activity extends AppCompatActivity {
     private EditText inputEmail, inputConfirmPassword, inputFirstName, inputLastName, inputPassword;
     private Button btnSignUp;
     private ProgressBar progressBar;
@@ -33,9 +33,9 @@ public class RegisterStep1 extends AppCompatActivity {
         inputConfirmPassword = (EditText) findViewById(R.id.confirm_password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         //Intent to switch to MainActivity
-        Intent mainInt = new Intent(RegisterStep1.this, MainActivity.class);
+        Intent mainInt = new Intent(RegisterStep1Activity.this, MainActivity.class);
         //Intent to switch to LoginActivity
-        final Intent loginInt = new Intent(RegisterStep1.this, LoginActivity.class);
+        final Intent loginInt = new Intent(RegisterStep1Activity.this, LoginActivity.class);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +79,7 @@ public class RegisterStep1 extends AppCompatActivity {
 
                 //start showing progress bar
                 progressBar.setVisibility(View.VISIBLE);
-                Intent step2 = new Intent(RegisterStep1.this, RegisterStep2.class);
+                Intent step2 = new Intent(RegisterStep1Activity.this, RegisterStep2Activity.class);
                 step2.putExtra("email", email);
                 step2.putExtra("password", password);
                 step2.putExtra("last_name", lastName);
@@ -100,6 +100,6 @@ public class RegisterStep1 extends AppCompatActivity {
 
 
     public void goToRegisterStep2(View view) {
-        startActivity(new Intent(RegisterStep1.this, RegisterStep2.class));
+        startActivity(new Intent(RegisterStep1Activity.this, RegisterStep2Activity.class));
     }
 }

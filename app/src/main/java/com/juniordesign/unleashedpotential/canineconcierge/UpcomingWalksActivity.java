@@ -14,7 +14,7 @@ import android.widget.TextView;
  * Created by chris on 9/13/2017.
  */
 
-public class UpcomingWalks extends AppCompatActivity {
+public class UpcomingWalksActivity extends AppCompatActivity {
 
     private ListView upcomingWalksList;
 

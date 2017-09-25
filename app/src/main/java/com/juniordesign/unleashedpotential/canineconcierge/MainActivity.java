@@ -35,21 +35,21 @@ public class MainActivity extends AppCompatActivity {
         btnScheduleWalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ScheduleWalk.class));
+                startActivity(new Intent(MainActivity.this, ScheduleWalkActivity.class));
             }
         });
 
         btnCompletedWalks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CompletedWalks.class));
+                startActivity(new Intent(MainActivity.this, CompletedWalksActivity.class));
             }
         });
 
         btnUpcomingWalks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UpcomingWalks.class));
+                startActivity(new Intent(MainActivity.this, UpcomingWalksActivity.class));
             }
         });
 

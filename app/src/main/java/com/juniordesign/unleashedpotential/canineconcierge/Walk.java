@@ -19,6 +19,7 @@ public class Walk {
     private Location startingLocation;
     private Location endLocation;
     private double distance;
+    private boolean completed;
 
     @Override
     public String toString() {
@@ -43,6 +44,7 @@ public class Walk {
         this.startingLocation = startingLocation;
         this.endLocation = endLocation;
         this.distance = distance;
+        this.completed = false;
     }
 
     public Walk() {
@@ -111,5 +113,13 @@ public class Walk {
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }
