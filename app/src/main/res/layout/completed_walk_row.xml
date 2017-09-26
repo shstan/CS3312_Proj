@@ -22,6 +22,7 @@
             android:paddingTop="8dp"
             android:text="NAME"
             android:textAlignment="viewEnd"
+            android:textColor="#000000"
             android:textSize="18sp" />
 
         <!--<TextView
@@ -40,6 +41,7 @@
             android:paddingTop="8dp"
             android:text="DATE"
             android:textAlignment="viewStart"
+            android:textColor="#000000"
             android:textSize="18sp" />
 
 
@@ -72,7 +74,8 @@
                     android:paddingRight="8dp"
                     android:paddingTop="4dp"
                     android:text="Start:"
-                    android:textAlignment="textEnd" />
+                    android:textAlignment="textEnd"
+                    android:textColor="#000000" />
 
                 <TextView
                     android:id="@+id/start_time"
@@ -83,7 +86,8 @@
                     android:paddingRight="8dp"
                     android:paddingTop="4dp"
                     android:text="TIME"
-                    android:textAlignment="viewStart" />
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000" />
 
             </LinearLayout>
 
@@ -102,7 +106,8 @@
                     android:paddingRight="8dp"
                     android:paddingTop="2dp"
                     android:text="End:"
-                    android:textAlignment="textEnd" />
+                    android:textAlignment="textEnd"
+                    android:textColor="#000000" />
 
                 <TextView
                     android:id="@+id/end_time"
@@ -113,7 +118,8 @@
                     android:paddingRight="8dp"
                     android:paddingTop="2dp"
                     android:text="TIME"
-                    android:textAlignment="viewStart" />
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000" />
 
             </LinearLayout>
 
@@ -140,7 +146,8 @@
                     android:paddingRight="8dp"
                     android:paddingTop="4dp"
                     android:text="Distance:"
-                    android:textAlignment="textEnd" />
+                    android:textAlignment="textEnd"
+                    android:textColor="#000000" />
 
                 <TextView
                     android:id="@+id/distance"
@@ -151,7 +158,8 @@
                     android:paddingRight="8dp"
                     android:paddingTop="4dp"
                     android:text="MILES"
-                    android:textAlignment="viewStart" />
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000" />
 
             </LinearLayout>
 
@@ -170,7 +178,8 @@
                     android:paddingRight="8dp"
                     android:paddingTop="2dp"
                     android:text="PackLeader:"
-                    android:textAlignment="textEnd" />
+                    android:textAlignment="textEnd"
+                    android:textColor="#000000" />
 
                 <TextView
                     android:id="@+id/leader_name"
@@ -181,7 +190,8 @@
                     android:paddingRight="8dp"
                     android:paddingTop="2dp"
                     android:text="NAME"
-                    android:textAlignment="viewStart" />
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000" />
 
             </LinearLayout>
 
