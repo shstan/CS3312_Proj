@@ -9,10 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -23,14 +28,27 @@ public class ScheduleWalk extends AppCompatActivity {
 
     private ListView packLeadersList;
     Button btnSchedule, pbutton;
+    CalendarView calendarView;
+    Calendar selectedDate;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schedule_walk);
 
         btnSchedule = (Button) findViewById(R.id.finish_schedule_walk);
+        calendarView = (CalendarView) findViewById(R.id.calendarView);
+        selectedDate = Calendar.getInstance();
 
         displayAvailablePackLeaders();
+
+        // Whenever the date is changed
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month,
+                                            int dayOfMonth) {
+                selectedDate.set(year, month, dayOfMonth);
+            }
+        });
 
         // Confirmation message onclick
         btnSchedule.setOnClickListener(new View.OnClickListener() {
@@ -38,7 +56,8 @@ public class ScheduleWalk extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO: send Date, Time, Pack Leader info to dialog
 
-                displayAlertDialog();
+
+                displayAlertDialog(selectedDate);
             }
         });
 
@@ -68,10 +87,16 @@ public class ScheduleWalk extends AppCompatActivity {
 
     // TODO: handle onclick selection of pack leader
 
-    public void displayAlertDialog() {
+    public void displayAlertDialog(Calendar selectedDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MMM dd");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ScheduleWalk.this);
         alertBuilder.setTitle("Confirm dog walk?")
-                .setMessage("<Date> <Time> <Pack Leader>")
+                .setMessage("<" + dateFormat.format(selectedDate.getTime())
+                        + "> <" + timeFormat.format(selectedDate.getTime())
+                        + "> <"
+                        + ">")
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
