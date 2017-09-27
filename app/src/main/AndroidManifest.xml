@@ -83,7 +83,10 @@
         </activity>
         <activity
             android:name=".PaymentActivity"
-            android:label="@string/title_activity_payment"></activity>
+            android:label="@string/title_activity_payment" />
+        <activity
+            android:name=".ConfirmationActivity"
+            android:label="@string/title_activity_confirmation"></activity>
     </application>
 
 </manifest>
