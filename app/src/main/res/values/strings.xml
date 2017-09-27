@@ -24,4 +24,5 @@
     <string name="schedule_welcome_message">Let\'s take a walk!</string>
     <string name="schedule_instruction">Select a date to view availability.</string>
     <string name="finish_schedule_walk">Schedule Walk</string>
+    <string name="title_activity_payment">PaymentActivity</string>
 </resources>

@@ -14,6 +14,7 @@
         android:paddingRight="8dp"
         android:paddingTop="8dp"
         android:text="NAME"
+        android:textColor="#000000"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -29,7 +30,8 @@
             android:paddingLeft="8dp"
             android:paddingRight="4dp"
             android:paddingTop="4dp"
-            android:text="Pack Leader:" />
+            android:text="Pack Leader:"
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/upcoming_leader_name"
@@ -40,7 +42,8 @@
             android:paddingLeft="4dp"
             android:paddingRight="8dp"
             android:paddingTop="4dp"
-            android:text="NAME" />
+            android:text="NAME"
+            android:textColor="#000000" />
     </LinearLayout>
 
     <TextView
@@ -51,7 +54,8 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="2dp"
-        android:text="DATE" />
+        android:text="DATE"
+        android:textColor="#000000" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,7 +70,8 @@
             android:paddingLeft="8dp"
             android:paddingRight="4dp"
             android:paddingTop="2dp"
-            android:text="Window:" />
+            android:text="Window:"
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/upcoming_window"
@@ -77,6 +82,7 @@
             android:paddingLeft="4dp"
             android:paddingRight="8dp"
             android:paddingTop="2dp"
-            android:text="WINDOW" />
+            android:text="WINDOW"
+            android:textColor="#000000" />
     </LinearLayout>
 </LinearLayout>
