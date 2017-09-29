@@ -1,6 +1,7 @@
 package com.juniordesign.unleashedpotential.canineconcierge;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -9,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by chris on 9/13/2017.
@@ -25,8 +30,9 @@ public class UpcomingWalks extends AppCompatActivity {
 
         upcomingWalksList = (ListView) findViewById(R.id.upcoming_walks_list);
 
-        upcomingWalksList.setAdapter(new upcomingListAdapter(this, new String[] { "data1",
-                "data2" }));
+        upcomingWalksList.setAdapter(new upcomingListAdapter(this, new Walk[] {
+                // TODO: need to populate the data - Stan
+        }));
 
     }
 }
@@ -36,11 +42,11 @@ class upcomingListAdapter extends BaseAdapter {
     Context context;
 
     // TODO: convert to list of walk data
-    String[] data;
+    Walk[] data;
 
     private static LayoutInflater inflater = null;
 
-    public upcomingListAdapter(Context context, String[] data) {
+    public upcomingListAdapter(Context context, Walk[] data) {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.data = data;
@@ -75,16 +81,18 @@ class upcomingListAdapter extends BaseAdapter {
 
         // TODO: Set TextViews with proper data from dataset
         TextView dogName = (TextView) vi.findViewById(R.id.upcoming_dog_name);
-        dogName.setText("Fido");
+        dogName.setText(data[position].getDogName());
 
         TextView walkDate = (TextView) vi.findViewById(R.id.upcoming_leader_name);
-        walkDate.setText(data[position]);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM / dd / yyyy");
+        walkDate.setText(dateFormat.format(data[position].getStartTime()));
 
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         TextView startTime = (TextView) vi.findViewById(R.id.upcoming_walk_date);
-        startTime.setText("10/5/17");
+        startTime.setText(timeFormat.format(data[position].getStartTime()));
 
         TextView endTime = (TextView) vi.findViewById(R.id.upcoming_window);
-        endTime.setText("11 am - 12 pm");
+        endTime.setText(timeFormat.format(data[position].getEndTime()));
 
         return vi;
     }
