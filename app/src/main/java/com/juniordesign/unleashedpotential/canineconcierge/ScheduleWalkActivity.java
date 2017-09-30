@@ -1,6 +1,7 @@
 package com.juniordesign.unleashedpotential.canineconcierge;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.location.Location;
@@ -10,10 +11,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,7 +52,11 @@ public class ScheduleWalkActivity extends AppCompatActivity {
     private DatabaseReference db;
     private CalendarView cal;
     private int dayOfWeek;
+    private int selMonth;
+    private int selYr;
+    private int selDay;
     private String currDay;
+    private String selectedLdr;
     private HashMap pack_leaders;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +73,6 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     pack_leaders = new HashMap((Map) dataSnapshot.getValue());
                     System.out.println(pack_leaders.get("apple") + "++++++++++");
-                } else {
-                    System.out.println("-------+++++");
                 }
             }
             @Override
@@ -83,11 +88,20 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 dayOfWeek = getDay(year, month, dayOfMonth);
                 currDay = getStringDayOfWeek(dayOfWeek);
                 System.out.println(currDay);
+                selDay = dayOfMonth;
+                selMonth = month;
+                selYr = year;
                 displayAvailablePackLeaders();
             }
         });
         //displayAvailablePackLeaders();
-
+        packLeadersList = (ListView) findViewById(R.id.pack_leaders_list);
+        packLeadersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                selectedLdr = (String)packLeadersList.getItemAtPosition(pos);
+            }
+        });
 
         //dayOfWeek = new Integer(0);
         // Confirmation message onclick
@@ -95,8 +109,10 @@ public class ScheduleWalkActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO: send Date, Time, Pack Leader info to dialog
-
-                Walk newWalk = new Walk("Time Horton Hears a Who", "Billy May Cyrus", "Matt in the Hat", new Date(2017, 9, 3, 11, 30, 0), new Date(2017, 9, 3, 12, 30,0), new Location("Test"),new Location("Test"), 90.1);
+                String ldrId = selectedLdr.substring(0, selectedLdr.indexOf(":"));
+                String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf("-"));
+                String endTime = selectedLdr.substring(selectedLdr.indexOf("-"));
+                Walk newWalk = new Walk(ldrId, "Billy May Cyrus", "Matt in the Hat", new Date(selYr, selMonth, selDay, Integer.parseInt(startTime), 0, 0), new Date(selYr, selMonth, selDay, Integer.parseInt(endTime), 0, 0), new Location("Test"),new Location("Test"), 90.1);
 
                 displayAlertDialog(newWalk);
             }
@@ -141,18 +157,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
         return (day % 7);
     }
     public void displayAvailablePackLeaders() {
-
-
-        packLeadersList = (ListView) findViewById(R.id.pack_leaders_list);
         List<String> availablePackLeaders = new ArrayList<String>();
-
-
-//            Set s = packldrs.keySet();
-//                    for (String key : (Set<String>)s) {
-//                HashMap ldr = (HashMap)packldrs.get(key);
-//
-//            }
-
         // This is the array adapter, it takes the context of the activity as a
         // first parameter, the type of list view as a second parameter and your
         // array as a third parameter.
@@ -171,7 +176,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
         for (String key : (Set<String>)keys) {
             HashMap ldr = (HashMap) pack_leaders.get(key);
             if (ldr.get(day) == null) {
-                System.out.println("Eyyyy");
+                Toast.makeText(getApplicationContext(), "Select a date!", Toast.LENGTH_SHORT).show();
             } else {
                 ArrayList<Long> hrs = (ArrayList<Long>)ldr.get(day);
                 for (long hr : hrs) {
@@ -192,13 +197,15 @@ public class ScheduleWalkActivity extends AppCompatActivity {
     // TODO: handle onclick selection of pack leader
 
     public void displayAlertDialog(final Walk newWalk) {
+        String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf("-"));
+
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ScheduleWalkActivity.this);
         alertBuilder.setTitle("Confirm dog walk?")
-                .setMessage("Walk: " + newWalk.getStartTime() + " with " + newWalk.getWalkerID())
+                .setMessage("Walk: @" + startTime + " with " + newWalk.getWalkerID())
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        // TODO: go to landing page? or payment page?
+                        startActivity(new Intent(ScheduleWalkActivity.this, PaymentActivity.class));
                         String walkID = db.child("walks").push().getKey();
                         db.child("walks").child(walkID).setValue(newWalk);
                     }})
