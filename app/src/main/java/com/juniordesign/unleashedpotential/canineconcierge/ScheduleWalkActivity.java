@@ -32,6 +32,10 @@ import java.util.Set;
 
 /**
  * Created by chris on 9/13/2017.
+ * Lasted edited by Jason on 10/1/2017
+ *  - Displays available pack leaders
+ *  - Does not display unavailable pack leaders
+ *  - Schedules walk
  */
 
 public class ScheduleWalkActivity extends AppCompatActivity {
@@ -107,7 +111,6 @@ public class ScheduleWalkActivity extends AppCompatActivity {
             }
         });
         cal.setFirstDayOfWeek(2);
-        //displayAvailablePackLeaders();
         packLeadersList = (ListView) findViewById(R.id.pack_leaders_list);
         packLeadersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -116,12 +119,9 @@ public class ScheduleWalkActivity extends AppCompatActivity {
             }
         });
 
-        //dayOfWeek = new Integer(0);
-        // Confirmation message onclick
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: send Date, Time, Pack Leader info to dialog
                 String ldrId = selectedLdr.substring(0, selectedLdr.indexOf(":"));
                 String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf("-"));
                 String endTime = selectedLdr.substring(selectedLdr.indexOf("-"));
@@ -133,8 +133,6 @@ public class ScheduleWalkActivity extends AppCompatActivity {
 
     }
 
-    // TODO: handle onclick of calendar date -> updates availablePackLeaders
-    // TODO: display both pack leader name and walk time in listView
     public String getStringDayOfWeek(int day) {
         switch(day) {
             case 0:
@@ -210,9 +208,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
         System.out.println(keys.size());
         for (String key : (Set<String>)keys) {
             HashMap ldr = (HashMap) pack_leaders.get(key);
-            if (ldr.get(day) == null) {
-                Toast.makeText(getApplicationContext(), "Select a date with available pack leaders!", Toast.LENGTH_SHORT).show();
-            } else {
+            if (ldr.get(day) != null) {
                 ArrayList<Long> hrs = (ArrayList<Long>)ldr.get(day);
                 dontInclude = removeScheduled(ldr, hrs);
                 for (int i = 0; i < hrs.size();i++) {
@@ -230,13 +226,14 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 }
             }
         }
+        if (ret.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Select a date with available pack leaders!", Toast.LENGTH_SHORT).show();
+        }
         return ret;
     }
-    // TODO: handle onclick selection of pack leader
+
 
     public void displayAlertDialog(final Walk newWalk) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm");
-        String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf("-"));
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ScheduleWalkActivity.this);
         alertBuilder.setTitle("Confirm dog walk?")
                 .setMessage("Walk: @" + newWalk.getStartTime() + " with " + newWalk.getWalkerID())
