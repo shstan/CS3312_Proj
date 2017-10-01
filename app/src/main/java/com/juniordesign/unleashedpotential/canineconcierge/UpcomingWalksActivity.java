@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -110,6 +111,9 @@ class upcomingListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Walk thisWalk = data.get(position);
+        SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat displayWalkTimeStart = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat displayWalkTimeEnd = new SimpleDateFormat("hh:mm");
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.upcoming_walk_row, null);
@@ -119,13 +123,14 @@ class upcomingListAdapter extends BaseAdapter {
         dogName.setText("Fido" + position);
 
         TextView walkDate = (TextView) vi.findViewById(R.id.upcoming_leader_name);
-        walkDate.setText("" + thisWalk.getStartTime().getDate());
+        walkDate.setText("" + thisWalk.getWalkerID());
 
         TextView startTime = (TextView) vi.findViewById(R.id.upcoming_walk_date);
-        startTime.setText("" + thisWalk.getStartTime().getTime());
+        startTime.setText("" + displayWalkDate.format(thisWalk.getStartTime()));
 
         TextView endTime = (TextView) vi.findViewById(R.id.upcoming_window);
-        endTime.setText("" + thisWalk.getEndTime().getTime());        dogName.setText("Fido" + position);
+        endTime.setText("" + displayWalkTimeStart.format(thisWalk.getStartTime()) + " - " + displayWalkTimeEnd.format(thisWalk.getEndTime()));
+
         Button deleteBtn = (Button)vi.findViewById(R.id.delete_btn);
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
