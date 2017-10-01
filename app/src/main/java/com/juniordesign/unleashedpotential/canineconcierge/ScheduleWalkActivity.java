@@ -226,7 +226,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        startActivity(new Intent(ScheduleWalkActivity.this, PayActivity.class));
+                        startActivity(new Intent(ScheduleWalkActivity.this, MainActivity.class));
                         String walkID = db.child("walks").push().getKey();
                         db.child("walks").child(walkID).setValue(newWalk);
                     }})
