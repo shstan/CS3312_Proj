@@ -1,8 +1,10 @@
 package com.juniordesign.unleashedpotential.canineconcierge;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,9 +14,8 @@ import android.widget.EditText;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
-import com.paypal.android.sdk.payments.PaymentConfirmation;
 import com.paypal.android.sdk.payments.PaymentActivity;
-
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONException;
 
@@ -43,12 +44,32 @@ public class PayActivity extends AppCompatActivity {
         buttonPay = (Button) findViewById(R.id.buttonPay);
         editTextAmount = (EditText) findViewById(R.id.editTextAmount);
         Intent intent = new Intent(this, PayPalService.class);
-
+        String toast = "Payment Successful";
+        final Intent mainIntent = new Intent(PayActivity.this, MainActivity.class);
+        mainIntent.putExtra("TOASTMSG", "Payment Successful");
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
 
         startService(intent);
+        buttonPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayAlertDialog(editTextAmount.getText().toString());
+            }
+        });
     }
+    public void displayAlertDialog(final String amount) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(PayActivity.this);
+        alertBuilder.setTitle("Confirm PayPal Payment?")
+                .setMessage("Purchase Amount: " + amount)
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        startActivity(new Intent(PayActivity.this, MainActivity.class));
+                    }})
+                .setNegativeButton(android.R.string.no, null);
+        AlertDialog dialog = alertBuilder.create();
+        dialog.show();
+    }
     public void getPayment(View view) {
         //Getting the amount from editText
         paymentAmount = editTextAmount.getText().toString();
