@@ -10,6 +10,16 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by chris on 9/13/2017.
  */
@@ -17,16 +27,37 @@ import android.widget.TextView;
 public class UpcomingWalksActivity extends AppCompatActivity {
 
     private ListView upcomingWalksList;
+    private FirebaseDatabase db;
+    private FirebaseAuth auth;
+    private DatabaseReference dbr;
+    private HashMap data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upcoming_walks);
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance();
+        dbr = db.getReference("walks");
+        dbr.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                data = new HashMap((Map) dataSnapshot.getValue());
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //TODO iterate thru data to find the walks with users id (obtainable from auth.getCurrentUser().getUid())
         upcomingWalksList = (ListView) findViewById(R.id.upcoming_walks_list);
 
         upcomingWalksList.setAdapter(new upcomingListAdapter(this, new String[] { "data1",
                 "data2" }));
+
+    }
+    public void cancelWalk() {
 
     }
 }

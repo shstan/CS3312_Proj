@@ -3,7 +3,9 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.util.Calendar;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,9 +25,11 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -58,9 +63,17 @@ public class ScheduleWalkActivity extends AppCompatActivity {
     private String currDay;
     private String selectedLdr;
     private HashMap pack_leaders;
+    private HashMap walks;
+    private FirebaseAuth auth;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            startActivity(new Intent(ScheduleWalkActivity.this, LoginActivity.class));
+        } else {
+            System.out.println(auth.getCurrentUser().getUid());
+        }
         setContentView(R.layout.schedule_walk);
         db = FirebaseDatabase.getInstance().getReference();
         btnSchedule = (Button) findViewById(R.id.finish_schedule_walk);
@@ -72,12 +85,27 @@ public class ScheduleWalkActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     pack_leaders = new HashMap((Map) dataSnapshot.getValue());
-                    System.out.println(pack_leaders.get("apple") + "++++++++++");
+
                 }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("Failed");
+            }
+        });
+        DatabaseReference schedWalks = FirebaseDatabase.getInstance().getReference("walks");
+        schedWalks.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    walks = new HashMap((Map) dataSnapshot.getValue());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
         long date = cal.getDate();
@@ -94,6 +122,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 displayAvailablePackLeaders();
             }
         });
+        cal.setFirstDayOfWeek(2);
         //displayAvailablePackLeaders();
         packLeadersList = (ListView) findViewById(R.id.pack_leaders_list);
         packLeadersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -112,7 +141,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 String ldrId = selectedLdr.substring(0, selectedLdr.indexOf(":"));
                 String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf("-"));
                 String endTime = selectedLdr.substring(selectedLdr.indexOf("-"));
-                Walk newWalk = new Walk(ldrId, "Billy May Cyrus", "Matt in the Hat", new Date(selYr, selMonth, selDay, Integer.parseInt(startTime), 0, 0), new Date(selYr, selMonth, selDay, Integer.parseInt(endTime), 0, 0), new Location("Test"),new Location("Test"), 90.1);
+                Walk newWalk = new Walk(ldrId, auth.getCurrentUser().getUid(), "Matt in the Hat", new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime), 0).getTime(), new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(endTime), 0, 0).getTime(), new Location("Test"),new Location("Test"), 90.1);
 
                 displayAlertDialog(newWalk);
             }
@@ -169,6 +198,13 @@ public class ScheduleWalkActivity extends AppCompatActivity {
 
         packLeadersList.setAdapter(arrayAdapter);
     }
+    public void removeScheduled(ArrayList<Long> hrs) {
+        Set<String> keys = walks.keySet();
+        for (String key : keys) {
+            HashMap walk = (HashMap)walks.get(key);
+
+        }
+    }
     public ArrayList<String> getAvailablePackLeaders(String day) {
         ArrayList<String> ret = new ArrayList<>();
         Set<String> keys = pack_leaders.keySet();
@@ -176,9 +212,10 @@ public class ScheduleWalkActivity extends AppCompatActivity {
         for (String key : (Set<String>)keys) {
             HashMap ldr = (HashMap) pack_leaders.get(key);
             if (ldr.get(day) == null) {
-                Toast.makeText(getApplicationContext(), "Select a date!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Select a date with available pack leaders!", Toast.LENGTH_SHORT).show();
             } else {
                 ArrayList<Long> hrs = (ArrayList<Long>)ldr.get(day);
+                removeScheduled(hrs);
                 for (long hr : hrs) {
                     String s = String.format("%s %s: ", ldr.get("firstName"), ldr.get("lastName"));
                     System.out.println("added name to string");
@@ -197,11 +234,11 @@ public class ScheduleWalkActivity extends AppCompatActivity {
     // TODO: handle onclick selection of pack leader
 
     public void displayAlertDialog(final Walk newWalk) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm");
         String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf("-"));
-
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ScheduleWalkActivity.this);
         alertBuilder.setTitle("Confirm dog walk?")
-                .setMessage("Walk: @" + startTime + " with " + newWalk.getWalkerID())
+                .setMessage("Walk: @" + newWalk.getStartTime() + " with " + newWalk.getWalkerID())
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -210,7 +247,6 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                         db.child("walks").child(walkID).setValue(newWalk);
                     }})
                 .setNegativeButton(android.R.string.no, null);
-
         AlertDialog dialog = alertBuilder.create();
         dialog.show();
 
