@@ -197,6 +197,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 long timeCheck = new GregorianCalendar(selYr, selMonth, selDay, (int)hr, 0).getTimeInMillis();
                 if ((long)selDay == (Long)start.get("date") && timeCheck == time && walk.get("walkerID").equals(String.format("%s %s", ldr.get("firstName"), ldr.get("lastName")))) {
                     remove.add(hr);
+
                 }
             }
 
@@ -211,9 +212,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
         System.out.println(keys.size());
         for (String key : (Set<String>)keys) {
             HashMap ldr = (HashMap) pack_leaders.get(key);
-            if (ldr.get(day) == null) {
-                Toast.makeText(getApplicationContext(), "Select a date with available pack leaders!", Toast.LENGTH_SHORT).show();
-            } else {
+            if (ldr.get(day) != null) {
                 ArrayList<Long> hrs = (ArrayList<Long>)ldr.get(day);
                 dontInclude = removeScheduled(ldr, hrs);
                 for (int i = 0; i < hrs.size();i++) {
@@ -230,6 +229,9 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                     }
                 }
             }
+        }
+        if (ret.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Select a date with available pack leaders!", Toast.LENGTH_SHORT).show();
         }
         return ret;
     }
