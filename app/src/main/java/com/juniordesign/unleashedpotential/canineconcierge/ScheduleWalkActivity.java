@@ -4,14 +4,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 
-import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,34 +19,26 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * Created by chris on 9/13/2017.
+ * Lasted edited by Jason on 10/1/2017
+ *  - Displays available pack leaders
+ *  - Does not display unavailable pack leaders
+ *  - Schedules walk
  */
 
 public class ScheduleWalkActivity extends AppCompatActivity {
@@ -123,7 +114,6 @@ public class ScheduleWalkActivity extends AppCompatActivity {
             }
         });
         cal.setFirstDayOfWeek(2);
-        //displayAvailablePackLeaders();
         packLeadersList = (ListView) findViewById(R.id.pack_leaders_list);
         packLeadersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -132,12 +122,9 @@ public class ScheduleWalkActivity extends AppCompatActivity {
             }
         });
 
-        //dayOfWeek = new Integer(0);
-        // Confirmation message onclick
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: send Date, Time, Pack Leader info to dialog
                 String ldrId = selectedLdr.substring(0, selectedLdr.indexOf(":"));
                 String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf("-"));
                 String endTime = selectedLdr.substring(selectedLdr.indexOf("-"));
@@ -149,8 +136,6 @@ public class ScheduleWalkActivity extends AppCompatActivity {
 
     }
 
-    // TODO: handle onclick of calendar date -> updates availablePackLeaders
-    // TODO: display both pack leader name and walk time in listView
     public String getStringDayOfWeek(int day) {
         switch(day) {
             case 0:
@@ -217,7 +202,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
 
         }
         return remove;
-    }//1506952800000 1507557600000 1506956400000
+    }
 
     public ArrayList<String> getAvailablePackLeaders(String day) {
         ArrayList<String> ret = new ArrayList<>();
@@ -248,11 +233,9 @@ public class ScheduleWalkActivity extends AppCompatActivity {
         }
         return ret;
     }
-    // TODO: handle onclick selection of pack leader
+
 
     public void displayAlertDialog(final Walk newWalk) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm");
-        String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf("-"));
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ScheduleWalkActivity.this);
         alertBuilder.setTitle("Confirm dog walk?")
                 .setMessage("Walk: @" + newWalk.getStartTime() + " with " + newWalk.getWalkerID())
