@@ -198,15 +198,30 @@ public class ScheduleWalkActivity extends AppCompatActivity {
 
         packLeadersList.setAdapter(arrayAdapter);
     }
-    public void removeScheduled(ArrayList<Long> hrs) {
+    public ArrayList<Long> removeScheduled(HashMap ldr, ArrayList<Long> hrs) {
+        if (walks == null) {
+            return new ArrayList<Long>();
+        }
         Set<String> keys = walks.keySet();
+        ArrayList<Long> remove = new ArrayList<>();
         for (String key : keys) {
             HashMap walk = (HashMap)walks.get(key);
+            HashMap start = (HashMap)walk.get("startTime");
+            long time = (long) start.get("time");
+            for (long hr : hrs) {
+                long timeCheck = new GregorianCalendar(selYr, selMonth, selDay, (int)hr, 0).getTimeInMillis();
+                if ((long)selDay == (Long)start.get("date") && timeCheck == time && walk.get("walkerID").equals(String.format("%s %s", ldr.get("firstName"), ldr.get("lastName")))) {
+                    remove.add(hr);
+                }
+            }
 
         }
-    }
+        return remove;
+    }//1506952800000 1507557600000 1506956400000
+
     public ArrayList<String> getAvailablePackLeaders(String day) {
         ArrayList<String> ret = new ArrayList<>();
+        ArrayList<Long> dontInclude;
         Set<String> keys = pack_leaders.keySet();
         System.out.println(keys.size());
         for (String key : (Set<String>)keys) {
@@ -215,17 +230,19 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Select a date with available pack leaders!", Toast.LENGTH_SHORT).show();
             } else {
                 ArrayList<Long> hrs = (ArrayList<Long>)ldr.get(day);
-                removeScheduled(hrs);
-                for (long hr : hrs) {
-                    String s = String.format("%s %s: ", ldr.get("firstName"), ldr.get("lastName"));
-                    System.out.println("added name to string");
-                    if (hr == 12) {
-                        s = s + (hr) + "-" + ((hr % 12) + 1);
-                    } else {
-                        s = s + (hr % 12) + "-" + ((hr % 12) + 1);
+                dontInclude = removeScheduled(ldr, hrs);
+                for (int i = 0; i < hrs.size();i++) {
+                    if (!dontInclude.contains(hrs.get(i))) {
+                        String s = String.format("%s %s: ", ldr.get("firstName"), ldr.get("lastName"));
+                        System.out.println("added name to string");
+                        if (hrs.get(i) == 12) {
+                            s = s + (hrs.get(i)) + "-" + ((hrs.get(i) % 12) + 1);
+                        } else {
+                            s = s + (hrs.get(i) % 12) + "-" + ((hrs.get(i) % 12) + 1);
+                        }
+                        System.out.println(s);
+                        ret.add(s);
                     }
-                    System.out.println(s);
-                    ret.add(s);
                 }
             }
         }
