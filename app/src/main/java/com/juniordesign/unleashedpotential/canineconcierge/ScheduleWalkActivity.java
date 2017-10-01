@@ -116,16 +116,18 @@ public class ScheduleWalkActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
                 selectedLdr = (String)packLeadersList.getItemAtPosition(pos);
+                System.out.println(selectedLdr);
             }
         });
 
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String ldrId = selectedLdr.substring(0, selectedLdr.indexOf(":"));
-                String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf("-"));
-                String endTime = selectedLdr.substring(selectedLdr.indexOf("-"));
-                Walk newWalk = new Walk(ldrId, auth.getCurrentUser().getUid(), "Matt in the Hat", new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime), 0).getTime(), new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(endTime), 0, 0).getTime(), new Location("Test", 10, 10),new Location("Test",10 ,10), 90.1);
+
+                String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf(" ", selectedLdr.indexOf(":") + 2));
+                Walk newWalk = new Walk(ldrId, auth.getCurrentUser().getUid(), "Matt in the Hat", new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime), 0).getTime(), new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime) + 1, 0, 0).getTime(), new Location("Test",10,10),new Location("Test",10,10), 90.1);
 
                 displayAlertDialog(newWalk);
             }
@@ -205,7 +207,6 @@ public class ScheduleWalkActivity extends AppCompatActivity {
         ArrayList<String> ret = new ArrayList<>();
         ArrayList<Long> dontInclude;
         Set<String> keys = pack_leaders.keySet();
-        System.out.println(keys.size());
         for (String key : (Set<String>)keys) {
             HashMap ldr = (HashMap) pack_leaders.get(key);
             if (ldr.get(day) != null) {
@@ -214,13 +215,17 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 for (int i = 0; i < hrs.size();i++) {
                     if (!dontInclude.contains(hrs.get(i))) {
                         String s = String.format("%s %s: ", ldr.get("firstName"), ldr.get("lastName"));
-                        System.out.println("added name to string");
                         if (hrs.get(i) == 12) {
-                            s = s + (hrs.get(i)) + "-" + ((hrs.get(i) % 12) + 1);
+                            s = s + (hrs.get(i)) + " pm - " + ((hrs.get(i) % 12) + 1 ) + " pm";
+                        } else if (hrs.get(i) < 11) {
+                            s = s + (hrs.get(i) % 12) + " am - " + ((hrs.get(i) % 12) + 1) + " am";
+                        } else if (hrs.get(i) == 11) {
+                            s = s + (hrs.get(i)) + " am - " + ((hrs.get(i)) + 1) + " pm";
                         } else {
-                            s = s + (hrs.get(i) % 12) + "-" + ((hrs.get(i) % 12) + 1);
+                            s = s + (hrs.get(i) % 12) + " pm - " + ((hrs.get(i) % 12) + 1 ) + " pm";
+
                         }
-                        System.out.println(s);
+
                         ret.add(s);
                     }
                 }

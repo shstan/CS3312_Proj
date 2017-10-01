@@ -22,12 +22,14 @@
 
         <Button
             android:id="@+id/delete_btn"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
+            android:layout_width="75dp"
+            android:layout_height="41dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="170dp"
             android:layout_marginRight="15dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
             android:text="Delete" />
     </LinearLayout>
     <LinearLayout
