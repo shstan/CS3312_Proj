@@ -3,12 +3,21 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 /**
  * Created by chris on 9/13/2017.
@@ -17,16 +26,39 @@ import android.widget.TextView;
 public class CompletedWalksActivity extends AppCompatActivity {
 
     private ListView completedWalksList;
-
+    private DatabaseReference db;
+    private ArrayList<Walk> walks;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.completed_walks);
+        walks = new ArrayList<Walk>();
+        db = FirebaseDatabase.getInstance().getReference();
+        Log.d("TEST", "ABOVE DB CALL");
 
-        completedWalksList = (ListView) findViewById(R.id.completed_walks_list);
+        db.child("walks").addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Get map of users in datasnapshot
+                        Log.d("TEST", "IN DB CALL");
+                        for(DataSnapshot singleWalk : dataSnapshot.getChildren()) {
+                            Walk addWalk = singleWalk.getValue(Walk.class);
+                            if( addWalk.isCompleted()) {
+                                walks.add(addWalk);
+                            }
+                        }
+                        completedWalksList = (ListView) findViewById(R.id.completed_walks_list);
+                        Log.d("TEST", walks.toString());
+                        completedWalksList.setAdapter(new completedListAdapter(CompletedWalksActivity.this, walks));
 
-        completedWalksList.setAdapter(new completedListAdapter(this, new String[] { "data1",
-                "data2" }));
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //handle databaseError
+                    }
+                });
+
 
         /*List<String> availablePackLeaders = new ArrayList<String>();
         availablePackLeaders.add("foo");
@@ -50,13 +82,12 @@ public class CompletedWalksActivity extends AppCompatActivity {
 class completedListAdapter extends BaseAdapter {
 
     Context context;
-
     // TODO: convert to list of walk data
-    String[] data;
+    ArrayList<Walk> data;
 
     private static LayoutInflater inflater = null;
 
-    public completedListAdapter(Context context, String[] data) {
+    public completedListAdapter(Context context, ArrayList<Walk> data) {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.data = data;
@@ -67,13 +98,13 @@ class completedListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return data.length;
+        return data.size();
     }
 
     @Override
     public Object getItem(int position) {
         // TODO Auto-generated method stub
-        return data[position];
+        return data.get(position);
     }
 
     @Override
@@ -88,25 +119,25 @@ class completedListAdapter extends BaseAdapter {
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.completed_walk_row, null);
-
+        Walk thisWalk = data.get(position);
         // TODO: Set TextViews with proper data by index/position of dataset
         TextView dogName = (TextView) vi.findViewById(R.id.dog_name);
-        dogName.setText("Fido");
+        dogName.setText("Fido" + position);
 
         TextView walkDate = (TextView) vi.findViewById(R.id.walk_date);
-        walkDate.setText(data[position]);
+        walkDate.setText("" + thisWalk.getStartTime().getDate());
 
         TextView startTime = (TextView) vi.findViewById(R.id.start_time);
-        startTime.setText("12:55 pm");
+        startTime.setText("" + thisWalk.getStartTime().getTime());
 
         TextView endTime = (TextView) vi.findViewById(R.id.end_time);
-        endTime.setText("1:45 pm");
+        endTime.setText("" + thisWalk.getEndTime().getTime());
 
         TextView distance = (TextView) vi.findViewById(R.id.distance);
-        distance.setText("1.1 miles");
+        distance.setText("" + thisWalk.getDistance());
 
         TextView packLeader = (TextView) vi.findViewById(R.id.leader_name);
-        packLeader.setText("John");
+        packLeader.setText("" + thisWalk.getWalkerID());
 
         return vi;
     }

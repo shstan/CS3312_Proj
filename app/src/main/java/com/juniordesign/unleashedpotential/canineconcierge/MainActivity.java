@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity  {
     private Button btnScheduleWalk, btnCompletedWalks, btnUpcomingWalks;
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void sendMessage(View view) {
-        Intent pay = new Intent(this, PaymentActivity.class);
+        Intent pay = new Intent(this, PayActivity.class);
         startActivity(pay);
     }
 

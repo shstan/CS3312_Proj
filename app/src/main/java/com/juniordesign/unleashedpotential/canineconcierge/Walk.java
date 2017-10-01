@@ -1,9 +1,5 @@
 package com.juniordesign.unleashedpotential.canineconcierge;
 
-import android.location.Location;
-import java.util.Calendar;
-
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -16,8 +12,8 @@ public class Walk {
     private String walkerID;
     private String clientID;
     private String dogName;
-    private Calendar startTime;
-    private Calendar endTime;
+    private Date startTime;
+    private Date endTime;
     private Location startingLocation;
     private Location endLocation;
     private double distance;
@@ -37,7 +33,7 @@ public class Walk {
                 '}';
     }
 
-    public Walk(String walkerID, String clientID, String dogName, Calendar startTime, Calendar endTime, Location startingLocation, Location endLocation, double distance) {
+    public Walk(String walkerID, String clientID, String dogName, Date startTime, Date endTime, Location startingLocation, Location endLocation, double distance) {
         this.walkerID = walkerID;
         this.clientID = clientID;
         this.dogName = dogName;
@@ -77,19 +73,19 @@ public class Walk {
         this.dogName = dogName;
     }
 
-    public Calendar getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Calendar startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public Calendar getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Calendar endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 

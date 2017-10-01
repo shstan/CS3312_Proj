@@ -3,15 +3,10 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,28 +15,17 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -141,7 +125,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 String ldrId = selectedLdr.substring(0, selectedLdr.indexOf(":"));
                 String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf("-"));
                 String endTime = selectedLdr.substring(selectedLdr.indexOf("-"));
-                Walk newWalk = new Walk(ldrId, auth.getCurrentUser().getUid(), "Matt in the Hat", new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime), 0).getTime(), new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(endTime), 0, 0).getTime(), new Location("Test"),new Location("Test"), 90.1);
+                Walk newWalk = new Walk(ldrId, auth.getCurrentUser().getUid(), "Matt in the Hat", new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime), 0).getTime(), new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(endTime), 0, 0).getTime(), new Location("Test", 10, 10), new Location("Test", 10, 10), 90.1);
 
                 displayAlertDialog(newWalk);
             }
@@ -242,7 +226,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        startActivity(new Intent(ScheduleWalkActivity.this, PaymentActivity.class));
+                        startActivity(new Intent(ScheduleWalkActivity.this, PayActivity.class));
                         String walkID = db.child("walks").push().getKey();
                         db.child("walks").child(walkID).setValue(newWalk);
                     }})
