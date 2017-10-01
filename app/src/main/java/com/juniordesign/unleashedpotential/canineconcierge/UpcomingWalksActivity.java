@@ -3,10 +3,12 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -44,6 +46,7 @@ public class UpcomingWalksActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleWalk : dataSnapshot.getChildren()) {
                     Walk addWalk = singleWalk.getValue(Walk.class);
+                    addWalk.setWalkID(singleWalk.getKey());
                     if(!addWalk.isCompleted()) {
                         walks.add(addWalk);
                     }
@@ -70,6 +73,7 @@ public class UpcomingWalksActivity extends AppCompatActivity {
 class upcomingListAdapter extends BaseAdapter {
 
     Context context;
+    private DatabaseReference db;
 
     // TODO: convert to list of walk data
     ArrayList<Walk> data;
@@ -80,6 +84,7 @@ class upcomingListAdapter extends BaseAdapter {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.data = data;
+        db = FirebaseDatabase.getInstance().getReference();
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -103,8 +108,8 @@ class upcomingListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Walk thisWalk = data.get(position);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final Walk thisWalk = data.get(position);
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.upcoming_walk_row, null);
@@ -121,7 +126,17 @@ class upcomingListAdapter extends BaseAdapter {
 
         TextView endTime = (TextView) vi.findViewById(R.id.upcoming_window);
         endTime.setText("" + thisWalk.getEndTime().getTime());        dogName.setText("Fido" + position);
+        Button deleteBtn = (Button)vi.findViewById(R.id.delete_btn);
 
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                data.remove(position);
+                Log.d("TEST", thisWalk.getWalkID());
+                db.child("walks").child(thisWalk.getWalkID()).removeValue();
+                notifyDataSetChanged();
+            }
+        });
 
 
 

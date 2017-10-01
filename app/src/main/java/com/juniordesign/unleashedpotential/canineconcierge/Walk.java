@@ -18,6 +18,7 @@ public class Walk {
     private Location endLocation;
     private double distance;
     private boolean completed;
+    private String walkID;
 
     @Override
     public String toString() {
@@ -119,5 +120,13 @@ public class Walk {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public String getWalkID() {
+        return walkID;
+    }
+
+    public void setWalkID(String walkID) {
+        this.walkID = walkID;
     }
 }

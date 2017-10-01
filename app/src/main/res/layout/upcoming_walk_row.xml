@@ -4,19 +4,32 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/upcoming_dog_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="8dp"
-        android:text="NAME"
-        android:textColor="#000000"
-        android:textSize="18sp" />
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/upcoming_dog_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:text="NAME"
+            android:textColor="#000000"
+            android:textSize="18sp" />
 
+        <Button
+            android:id="@+id/delete_btn"
+            android:layout_width="100dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="170dp"
+            android:layout_marginRight="15dp"
+            android:text="Delete" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
