@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -59,23 +60,6 @@ public class CompletedWalksActivity extends AppCompatActivity {
                     }
                 });
 
-
-        /*List<String> availablePackLeaders = new ArrayList<String>();
-        availablePackLeaders.add("foo");
-        availablePackLeaders.add("bar");
-        availablePackLeaders.add("hey");
-        availablePackLeaders.add("sup");
-
-        // This is the array adapter, it takes the context of the activity as a
-        // first parameter, the type of list view as a second parameter and your
-        // array as a third parameter.
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                availablePackLeaders );
-
-        completedWalksList.setAdapter(arrayAdapter);*/
-
     }
 }
 
@@ -116,6 +100,9 @@ class completedListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        SimpleDateFormat displayWalkTimeStart = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat displayWalkTimeEnd = new SimpleDateFormat("hh:mm");
+
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.completed_walk_row, null);
@@ -128,13 +115,13 @@ class completedListAdapter extends BaseAdapter {
         walkDate.setText("" + thisWalk.getStartTime().getDate());
 
         TextView startTime = (TextView) vi.findViewById(R.id.start_time);
-        startTime.setText("" + thisWalk.getStartTime().getTime());
+        startTime.setText("" + displayWalkTimeStart.format(thisWalk.getStartTime()));
 
         TextView endTime = (TextView) vi.findViewById(R.id.end_time);
-        endTime.setText("" + thisWalk.getEndTime().getTime());
+        endTime.setText("" + displayWalkTimeEnd.format(thisWalk.getEndTime()));
 
         TextView distance = (TextView) vi.findViewById(R.id.distance);
-        distance.setText("" + thisWalk.getDistance());
+        distance.setText("1 mi");
 
         TextView packLeader = (TextView) vi.findViewById(R.id.leader_name);
         packLeader.setText("" + thisWalk.getWalkerID());
