@@ -9,11 +9,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity  {
-    private Button btnScheduleWalk, btnCompletedWalks, btnUpcomingWalks;
+    private Button btnScheduleWalk, btnCompletedWalks, btnUpcomingWalks, btnLogout;
 
-    //private FirebaseAuth auth;
+    private FirebaseAuth auth;
     //private String userEmail;
 
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity  {
         btnScheduleWalk = (Button) findViewById(R.id.go_to_schedule_walk);
         btnCompletedWalks = (Button) findViewById(R.id.go_to_completed_walks);
         btnUpcomingWalks = (Button) findViewById(R.id.go_to_upcoming_walks);
+        btnLogout = (Button) findViewById(R.id.sign_out);
 
         btnScheduleWalk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,8 +49,19 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-
-
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+        }
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                auth.signOut();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
+            }
+        });
 //        buttonPay.setOnClickListener(this);
 
     }

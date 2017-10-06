@@ -75,4 +75,8 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(launchRegistration);
     }
 
+    public void beginPackLeaderRegistration(View view) {
+        Intent launchRegistration = new Intent(LoginActivity.this, PackLeaderRegistrationActivity.class);
+        startActivity(launchRegistration);
+    }
 }
