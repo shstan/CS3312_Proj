@@ -12,15 +12,15 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class PackLeaderRegistrationActivity extends AppCompatActivity {
+public class PackLeaderRegistrationStep2Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.packleader_registration_step1);
+        setContentView(R.layout.packleader_registration_step2);
     }
 
     public void goToRegisterStep2(View view) {
-        startActivity(new Intent(PackLeaderRegistrationActivity.this, PackLeaderRegistrationStep2Activity.class));
+        //startActivity(new Intent(PackLeaderRegistrationActivity.this, PackLeaderRegistrationActivity2.class));
     }
 }

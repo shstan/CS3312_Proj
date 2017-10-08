@@ -90,6 +90,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".PackLeaderRegistrationStep2Activity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.PackLeaderRegistrationStep2Activity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".PayActivity"
             android:label="@string/title_activity_payment" />
         <activity
