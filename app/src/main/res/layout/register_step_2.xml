@@ -22,7 +22,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/state_input"
         android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"
@@ -44,7 +44,7 @@
         android:paddingTop="8dp"
         android:layout_marginLeft="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/city_input"
         android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"
@@ -83,7 +83,7 @@
         android:paddingRight="8dp"
         android:paddingTop="8dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="163dp"
+        android:layout_marginTop="209dp"
         android:layout_marginLeft="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="16dp"
@@ -102,12 +102,13 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="8dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/password"
         android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.504" />
 
     <EditText
         android:id="@+id/addr_2"
@@ -121,12 +122,13 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="8dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/addr_1"
         android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.504" />
 
     <EditText
         android:id="@+id/city_input"
@@ -140,7 +142,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/addr_2"
         android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"

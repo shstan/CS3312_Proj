@@ -3,6 +3,7 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +26,7 @@ import java.math.BigDecimal;
 public class PayActivity extends AppCompatActivity {
     public static final int PAYPAL_REQUEST_CODE = 123;
 
-    private Button buttonPay;
+    private Button buttonPay, pbutton;
     private EditText editTextAmount;
     private String paymentAmount;
 
@@ -69,6 +70,9 @@ public class PayActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, null);
         AlertDialog dialog = alertBuilder.create();
         dialog.show();
+
+        pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setTextColor(Color.BLUE);
     }
     public void getPayment(View view) {
         //Getting the amount from editText
