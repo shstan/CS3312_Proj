@@ -37,4 +37,5 @@
     <string name="sunday">Sunday</string>
     <string name="packleader_portal">Pack Leader Portal</string>
     <string name="set_hours">Set Available Hours</string>
+    <string name="save">Save</string>
 </resources>

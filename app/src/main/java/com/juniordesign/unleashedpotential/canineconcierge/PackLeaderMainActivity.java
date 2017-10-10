@@ -30,7 +30,7 @@ public class PackLeaderMainActivity extends AppCompatActivity {
         btnSetHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(MainActivity.this, ScheduleWalkActivity.class));
+                startActivity(new Intent(PackLeaderMainActivity.this, PackLeaderSetHoursActivity.class));
             }
         });
 
@@ -61,6 +61,5 @@ public class PackLeaderMainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 }

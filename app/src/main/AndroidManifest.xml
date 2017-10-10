@@ -114,6 +114,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".PackLeaderSetHoursActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.PackLeaderSetHoursActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".PayActivity"
             android:label="@string/app_name" />
         <activity
