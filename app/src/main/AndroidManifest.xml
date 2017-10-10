@@ -98,6 +98,22 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".PackLeaderRegistrationSetHoursActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.PackLeaderRegistrationSetHoursActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PackLeaderMainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.PackLeaderMainActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".PayActivity"
             android:label="@string/app_name" />
         <activity
