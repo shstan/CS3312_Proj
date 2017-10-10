@@ -20,7 +20,7 @@ public class PackLeaderRegistrationStep2Activity extends AppCompatActivity {
         setContentView(R.layout.packleader_registration_step2);
     }
 
-    public void goToRegisterStep2(View view) {
-        //startActivity(new Intent(PackLeaderRegistrationActivity.this, PackLeaderRegistrationActivity2.class));
+    public void goToRegisterStep3(View view) {
+        startActivity(new Intent(PackLeaderRegistrationStep2Activity.this, PackLeaderRegistrationSetHoursActivity.class));
     }
 }

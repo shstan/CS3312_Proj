@@ -27,4 +27,15 @@
     <string name="finish_schedule_walk">Schedule Walk</string>
     <string name="title_activity_payment">PaymentActivity</string>
     <string name="title_activity_confirmation">ConfirmationActivity</string>
+    <string name="set_hours_instruction">Click a day to set available hours</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="packleader_portal">Pack Leader Portal</string>
+    <string name="set_hours">Set Available Hours</string>
+    <string name="save">Save</string>
 </resources>

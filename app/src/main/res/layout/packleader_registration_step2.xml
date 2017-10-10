@@ -10,7 +10,7 @@
     tools:layout_editor_absoluteX="0dp">
 
     <EditText
-        android:id="@+id/packleader_xip"
+        android:id="@+id/packleader_zip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
@@ -63,6 +63,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="#ccffffff"
+        android:onClick="goToRegisterStep3"
         android:text="Continue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
