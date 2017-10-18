@@ -28,19 +28,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterStep1"
+            android:name=".RegisterStep1Activity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.RegisterStep1" />
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.RegisterStep1Activity" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterStep2"
+            android:name=".RegisterStep2Activity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.RegisterStep2" />
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.RegisterStep2Activity" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -55,34 +55,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ScheduleWalk"
+            android:name=".ScheduleWalkActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.ScheduleWalk" />
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.ScheduleWalkActivity" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".CompletedWalks"
+            android:name=".CompletedWalksActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.CompletedWalks" />
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.CompletedWalksActivity" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".UpcomingWalks"
+            android:name=".UpcomingWalksActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.UpcomingWalks" />
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.UpcomingWalksActivity" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".PaymentActivity"
+            android:name=".PayActivity"
             android:label="@string/title_activity_payment" />
         <activity
             android:name=".ConfirmationActivity"

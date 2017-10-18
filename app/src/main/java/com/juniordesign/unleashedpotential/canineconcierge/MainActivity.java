@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity  {
     private Button btnScheduleWalk, btnCompletedWalks, btnUpcomingWalks;
@@ -30,21 +29,21 @@ public class MainActivity extends AppCompatActivity  {
         btnScheduleWalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ScheduleWalk.class));
+                startActivity(new Intent(MainActivity.this, ScheduleWalkActivity.class));
             }
         });
 
         btnCompletedWalks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CompletedWalks.class));
+                startActivity(new Intent(MainActivity.this, CompletedWalksActivity.class));
             }
         });
 
         btnUpcomingWalks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UpcomingWalks.class));
+                startActivity(new Intent(MainActivity.this, UpcomingWalksActivity.class));
             }
         });
 
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void sendMessage(View view) {
-        Intent pay = new Intent(this, PaymentActivity.class);
+        Intent pay = new Intent(this, PayActivity.class);
         startActivity(pay);
     }
 
