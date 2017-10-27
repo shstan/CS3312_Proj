@@ -82,11 +82,67 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".PackLeaderRegistrationActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.PackLeaderRegistrationActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PackLeaderRegistrationStep2Activity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.PackLeaderRegistrationStep2Activity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PackLeaderRegistrationSetHoursActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.PackLeaderRegistrationSetHoursActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PackLeaderMainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.PackLeaderMainActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PackLeaderSetHoursActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.PackLeaderSetHoursActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PackLeaderUpcomingWalksActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.PackLeaderUpcomingWalksActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PackLeaderCompletedWalksActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.juniordesign.unleashedpotential.canineconcierge.PackLeaderCompletedWalksActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".PayActivity"
-            android:label="@string/title_activity_payment" />
+            android:label="@string/app_name" />
         <activity
             android:name=".ConfirmationActivity"
-            android:label="@string/title_activity_confirmation"></activity>
+            android:label="@string/app_name" ></activity>
     </application>
 
 </manifest>
