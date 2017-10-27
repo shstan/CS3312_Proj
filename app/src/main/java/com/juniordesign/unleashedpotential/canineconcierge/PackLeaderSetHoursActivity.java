@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.support.annotation.NonNull;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,6 +27,7 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
     PackLeaderSetHoursActivity.HourListAdapter dataAdapter = null;
 
     //TODO: refresh hours view based on day selected
+    private Button monday_butt, tuesday_but, wednesday_butt, thursday_butt, friday_butt, saturday_butt, sunday_butt;
     String selectedDay = null;
 
     @Override
@@ -32,7 +35,61 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.packleader_sethours);
 
+        //displayListView();
+
+        monday_butt = (Button) findViewById(R.id.button9);
+        tuesday_but = (Button) findViewById(R.id.button10);
+        wednesday_butt = (Button) findViewById(R.id.button11);
+        thursday_butt = (Button) findViewById(R.id.button12);
+        friday_butt = (Button) findViewById(R.id.button13);
+        saturday_butt = (Button) findViewById(R.id.button14);
+        sunday_butt = (Button) findViewById(R.id.button15);
+
         displayListView();
+        monday_butt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedDay = "Monday";
+            }
+        });
+        tuesday_but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedDay = "Tuesday";
+            }
+        });
+        wednesday_butt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedDay = "Wednesday";
+            }
+        });
+        thursday_butt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedDay = "Thursday";
+            }
+        });
+        friday_butt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedDay = "Friday";
+            }
+        });
+        saturday_butt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedDay = "Saturday";
+            }
+        });
+        sunday_butt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedDay = "Sunday";
+            }
+        });
+        displayListView();
+
     }
 
     public void finishSetHours(View view) {

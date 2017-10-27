@@ -14,11 +14,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private Button btnLogin;
     private FirebaseAuth auth;
+    private FirebaseDatabase db;
+    private DatabaseReference dbr;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +36,14 @@ public class LoginActivity extends AppCompatActivity {
         inputEmail =  (EditText) findViewById(R.id.email_address);
         inputPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.login_button);
-
+        db = FirebaseDatabase.getInstance();
+        dbr = db.getReference("pack_leaders");
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString().trim();
+                final String email = inputEmail.getText().toString().trim();
                 final String password = inputPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
@@ -59,6 +68,23 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 //Login successful, bring user to main page
                                 } else {
+                                    dbr.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for(DataSnapshot singlePackLeader : dataSnapshot.getChildren()) {
+                                                PackLeader p_lead = singlePackLeader.getValue(PackLeader.class);
+                                                if (p_lead.email.equals(email)) {
+                                                    startActivity(new Intent(LoginActivity.this, PackLeaderMainActivity.class));
+                                                    finish();
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     finish();
                                 }
