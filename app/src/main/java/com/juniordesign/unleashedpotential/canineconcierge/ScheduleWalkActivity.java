@@ -22,7 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -245,9 +244,11 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
+
                         startActivity(new Intent(ScheduleWalkActivity.this, PayActivity.class));
                         String walkID = db.child("walks").push().getKey();
                         db.child("walks").child(walkID).setValue(newWalk);
+
                     }})
                 .setNegativeButton(android.R.string.no, null);
         AlertDialog dialog = alertBuilder.create();

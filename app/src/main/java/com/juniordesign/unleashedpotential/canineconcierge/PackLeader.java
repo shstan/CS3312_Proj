@@ -11,12 +11,14 @@ import java.util.HashMap;
 public class PackLeader extends User {
     private HashMap availableHrs;
     private Map unavailableHrs;
+    public PackLeader() {}
     public PackLeader(String email, String firstName, String lastName, String zipCode, String state, String phoneNumber, String address1,
                             String address2, String city) {
         super(email, firstName, lastName, zipCode, state, phoneNumber, address1, address2, city);
         availableHrs = new HashMap<String, ArrayList<Integer>>();
         availableHrs.put("Monday", null);
         availableHrs.put("Tuesday", null);
+        availableHrs.put("Wednesday", null);
         availableHrs.put("Wednesday", null);
         availableHrs.put("Thursday", null);
         availableHrs.put("Friday", null);
