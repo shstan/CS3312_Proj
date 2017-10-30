@@ -123,12 +123,17 @@ public class ScheduleWalkActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String ldrId = selectedLdr.substring(0, selectedLdr.indexOf(":"));
+                if (selectedLdr == null) {
+                    Toast.makeText(getApplicationContext(), "Select a date with available pack leaders!", Toast.LENGTH_SHORT).show();
+                } else {
+                    String ldrId = selectedLdr.substring(0, selectedLdr.indexOf(":"));
 
-                String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf(" ", selectedLdr.indexOf(":") + 2));
-                Walk newWalk = new Walk(ldrId, auth.getCurrentUser().getUid(), "Matt in the Hat", new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime), 0).getTime(), new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime) + 1, 0, 0).getTime(), new Location("Test",10,10),new Location("Test",10,10), 90.1);
+                    String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf(" ", selectedLdr.indexOf(":") + 2));
+                    Walk newWalk = new Walk(ldrId, auth.getCurrentUser().getUid(), "Matt in the Hat", new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime), 0).getTime(), new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime) + 1, 0, 0).getTime(), new Location("Test",10,10),new Location("Test",10,10), 90.1);
 
-                displayAlertDialog(newWalk);
+                    displayAlertDialog(newWalk);
+                }
+
             }
         });
 

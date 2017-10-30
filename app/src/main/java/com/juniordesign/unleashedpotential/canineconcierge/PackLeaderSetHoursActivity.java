@@ -37,13 +37,13 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
 
         //displayListView();
 
-        monday_butt = (Button) findViewById(R.id.button9);
-        tuesday_but = (Button) findViewById(R.id.button10);
-        wednesday_butt = (Button) findViewById(R.id.button11);
-        thursday_butt = (Button) findViewById(R.id.button12);
-        friday_butt = (Button) findViewById(R.id.button13);
-        saturday_butt = (Button) findViewById(R.id.button14);
-        sunday_butt = (Button) findViewById(R.id.button15);
+        monday_butt = (Button) findViewById(R.id.monday);
+        tuesday_but = (Button) findViewById(R.id.tuesday);
+        wednesday_butt = (Button) findViewById(R.id.wednesday);
+        thursday_butt = (Button) findViewById(R.id.thursday);
+        friday_butt = (Button) findViewById(R.id.friday);
+        saturday_butt = (Button) findViewById(R.id.saturday);
+        sunday_butt = (Button) findViewById(R.id.sunday);
 
         displayListView();
         monday_butt.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +171,8 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
                 holder.name.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
                         //TODO: save selection to db
+                        //TODO: Also need to agree in a way how to save the schedule and timing
+                        // Becuase the way we save time is not sure if this is weekly repetitive...
                         CheckBox cb = (CheckBox) v ;
                         Hour hour = (Hour) cb.getTag();
                         Toast.makeText(getApplicationContext(),
