@@ -1,7 +1,11 @@
 package com.juniordesign.unleashedpotential.canineconcierge;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -103,7 +107,7 @@ class upcomingListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Walk thisWalk = data.get(position);
 
-        SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yyyy");
+        final SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yyyy");
         SimpleDateFormat displayWalkTimeStart = new SimpleDateFormat("hh:mm");
         SimpleDateFormat displayWalkTimeEnd = new SimpleDateFormat("hh:mm");
 
@@ -125,13 +129,28 @@ class upcomingListAdapter extends BaseAdapter {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Confirmation dialogue
-                data.remove(position);
-                db.child("walks").child(thisWalk.getWalkID()).removeValue();
-                notifyDataSetChanged();
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getRootView().getContext());
+                alertBuilder.setTitle("Are you sure?")
+                        .setMessage("Cancel Upcoming Walk: " + thisWalk.getDogName() + " " + displayWalkDate.format(thisWalk.getStartTime()))
+                        .setPositiveButton("Cancel Walk", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                deleteWalk(position);
+                            }})
+                        .setNegativeButton("Nevermind", null);
+
+                AlertDialog dialog = alertBuilder.create();
+                dialog.show();
+
+                Button nbutton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                nbutton.setTextColor(Color.BLUE);
             }
         });
 
         return vi;
+    }
+
+    public void deleteWalk(int position) {
+        db.child("walks").child(data.get(position).getWalkID()).removeValue();
+        data.clear();
     }
 }
