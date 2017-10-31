@@ -54,7 +54,6 @@ public class PackLeaderCompletedWalksActivity extends AppCompatActivity {
                         }
                         completedWalksList = (ListView) findViewById(R.id.packleader_completed_walks_list);
                         completedWalksList.setAdapter(new packLeaderCompletedListAdapter(PackLeaderCompletedWalksActivity.this, walks));
-
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {

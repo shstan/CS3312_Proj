@@ -52,7 +52,8 @@ public class UpcomingWalksActivity extends AppCompatActivity {
                 for(DataSnapshot singleWalk : dataSnapshot.getChildren()) {
                     Walk addWalk = singleWalk.getValue(Walk.class);
                     addWalk.setWalkID(singleWalk.getKey());
-                    if(!addWalk.isCompleted()) {
+
+                    if(!addWalk.isCompleted() && auth.getCurrentUser().getUid().equals(addWalk.getClientID())) {
                         walks.add(addWalk);
                     }
                 }
@@ -64,7 +65,6 @@ public class UpcomingWalksActivity extends AppCompatActivity {
                 //TODO: Handle database error
             }
         });
-        //TODO iterate thru data to find the walks with users id (obtainable from auth.getCurrentUser().getUid())
     }
 }
 
