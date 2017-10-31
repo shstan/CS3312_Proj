@@ -7,9 +7,16 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * MainActivity - Dog Owner Portal
@@ -20,6 +27,7 @@ public class MainActivity extends AppCompatActivity  {
 
     private Button btnScheduleWalk, btnCompletedWalks, btnUpcomingWalks, btnLogout;
     private FirebaseAuth auth;
+    private FirebaseDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +41,32 @@ public class MainActivity extends AppCompatActivity  {
 
         //Check for authenticated user
         auth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance();
+
         if (auth.getCurrentUser() == null) {
             //If no user, launch LoginActivity
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         } else {
-            //TODO: If user is pack leader, direct to PackLeaderMainActivity
-            //If user is pack leader, launch PackLeaderMainActivity
+            //Check if user is pack leader
+            Query plQuery = db.getReference("pack_leaders")
+                    .orderByChild("email").equalTo(auth.getCurrentUser().getEmail());
+
+            plQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot singlePackLeader : dataSnapshot.getChildren()) {
+                        //User is a pack leader - direct to PackLeaderMainActivity
+                        startActivity(new Intent(MainActivity.this, PackLeaderMainActivity.class));
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    //TODO: Handle database error
+                }
+            });
         }
 
         //Button Listeners

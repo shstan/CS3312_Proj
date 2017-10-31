@@ -33,6 +33,20 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", zipCode=" + zipCode +
+                ", state=" + state +
+                ", phoneNumber=" + phoneNumber +
+                ", address1=" + address1 +
+                ", address2=" + address2 +
+                ", city=" + city +
+                '}';
+    }
+
     public User(String email) {
         this.email = email;
     }
