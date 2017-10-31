@@ -2,12 +2,14 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,7 +48,7 @@ public class PackLeaderCompletedWalksActivity extends AppCompatActivity {
                         //TODO: Get Completed walks by pack leader
                         for(DataSnapshot singleWalk : dataSnapshot.getChildren()) {
                             Walk addWalk = singleWalk.getValue(Walk.class);
-                            if( addWalk.isCompleted()) {
+                            if(addWalk.isCompleted()) {
                                 //walks.add(addWalk);
                             }
                         }
@@ -94,14 +96,14 @@ class packLeaderCompletedListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yy");
+        final SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yy");
         SimpleDateFormat displayWalkTimeStart = new SimpleDateFormat("hh:mm");
         SimpleDateFormat displayWalkTimeEnd = new SimpleDateFormat("hh:mm");
 
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.completed_walk_row, null);
-        Walk thisWalk = data.get(position);
+        final Walk thisWalk = data.get(position);
 
         TextView dogName = (TextView) vi.findViewById(R.id.dog_name);
         dogName.setText(thisWalk.getDogName() + " " + displayWalkDate.format(thisWalk.getStartTime()));
@@ -117,6 +119,20 @@ class packLeaderCompletedListAdapter extends BaseAdapter {
 
         TextView packLeader = (TextView) vi.findViewById(R.id.leader_name);
         packLeader.setText("" + thisWalk.getWalkerID());
+
+        Button mapBtn = (Button)vi.findViewById(R.id.view_map);
+
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getRootView().getContext());
+                alertBuilder.setTitle(thisWalk.getDogName() + " " + displayWalkDate.format(thisWalk.getStartTime()))
+                        .setNeutralButton("Close", null);
+                //TODO: Insert map
+                AlertDialog dialog = alertBuilder.create();
+                dialog.show();
+            }
+        });
 
         return vi;
     }
