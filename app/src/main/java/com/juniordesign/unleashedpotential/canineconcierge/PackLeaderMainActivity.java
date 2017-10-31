@@ -9,9 +9,14 @@ import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
- * Created by chris on 10/10/2017.
+ * Created by christy on 10/10/2017.
  */
 
+/**
+ * PackLeaderMainActivity - Pack Leader Portal
+ * Directs user to set available hours, view completed walks, view upcoming walks
+ * Sign Out button
+ */
 public class PackLeaderMainActivity extends AppCompatActivity {
 
     private Button btnSetHours, btnCompletedWalks, btnUpcomingWalks, btnLogout;
@@ -27,6 +32,16 @@ public class PackLeaderMainActivity extends AppCompatActivity {
         btnUpcomingWalks = (Button) findViewById(R.id.go_to_upcoming_walks);
         btnLogout = (Button) findViewById(R.id.sign_out);
 
+        //TODO: Check for authenticated user
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            //startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            //finish();
+        } else {
+            //If user is pack leader, launch PackLeaderMainActivity
+        }
+
+        //Button Listeners
         btnSetHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,11 +63,6 @@ public class PackLeaderMainActivity extends AppCompatActivity {
             }
         });
 
-        auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() == null) {
-            //startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            //finish();
-        }
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
