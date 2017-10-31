@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * Created by chris on 10/10/2017.
+ * Created by christy on 10/10/2017.
  */
 
 public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
@@ -36,13 +36,16 @@ public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.packleader_upcoming_walks);
+
         auth = FirebaseAuth.getInstance();
         walks = new ArrayList<Walk>();
         db = FirebaseDatabase.getInstance();
         dbr = db.getReference("walks");
         upcomingWalksList = (ListView) findViewById(R.id.packleader_upcoming_walks_list);
+
         dbr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -63,12 +66,6 @@ public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
             }
         });
         //TODO iterate thru data to find the walks with users id (obtainable from auth.getCurrentUser().getUid())
-
-
-    }
-
-    public void cancelWalk() {
-
     }
 }
 
@@ -76,14 +73,11 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
 
     Context context;
     private DatabaseReference db;
-
-    // TODO: convert to list of walk data
     ArrayList<Walk> data;
 
     private static LayoutInflater inflater = null;
 
     public packLeaderUpcomingListAdapter(Context context, ArrayList<Walk> data) {
-        // TODO Auto-generated constructor stub
         this.context = context;
         this.data = data;
         db = FirebaseDatabase.getInstance().getReference();
@@ -93,41 +87,36 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return data.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return data.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Walk thisWalk = data.get(position);
+
         SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yyyy");
         SimpleDateFormat displayWalkTimeStart = new SimpleDateFormat("hh:mm");
         SimpleDateFormat displayWalkTimeEnd = new SimpleDateFormat("hh:mm");
+
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.upcoming_walk_row, null);
 
-        // TODO: Set TextViews with proper data from dataset
         TextView dogName = (TextView) vi.findViewById(R.id.upcoming_dog_name);
-        dogName.setText("Fido" + position);
+        dogName.setText(thisWalk.getDogName() + " " + displayWalkDate.format(thisWalk.getStartTime()));
 
         TextView walkDate = (TextView) vi.findViewById(R.id.upcoming_leader_name);
         walkDate.setText("" + thisWalk.getWalkerID());
-
-        TextView startTime = (TextView) vi.findViewById(R.id.upcoming_walk_date);
-        startTime.setText("" + displayWalkDate.format(thisWalk.getStartTime()));
 
         TextView endTime = (TextView) vi.findViewById(R.id.upcoming_window);
         endTime.setText("" + displayWalkTimeStart.format(thisWalk.getStartTime()) + " - " + displayWalkTimeEnd.format(thisWalk.getEndTime()));
@@ -137,8 +126,8 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO: Confirmation dialogue
                 data.remove(position);
-                Log.d("TEST", thisWalk.getWalkID());
                 db.child("walks").child(thisWalk.getWalkID()).removeValue();
                 notifyDataSetChanged();
             }

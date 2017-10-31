@@ -38,4 +38,7 @@
     <string name="packleader_portal">Pack Leader Portal</string>
     <string name="set_hours">Set Available Hours</string>
     <string name="save">Save</string>
+    <string name="view_walk_details">View Details</string>
+    <string name="time_label">Time:</string>
+    <string name="cancel_walk">Cancel Walk</string>
 </resources>
