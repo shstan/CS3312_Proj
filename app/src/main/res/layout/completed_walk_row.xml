@@ -9,19 +9,20 @@
     <LinearLayout
         android:layout_width="367dp"
         android:layout_height="wrap_content"
+        android:paddingTop="8dp"
         android:weightSum="1">
 
         <TextView
             android:id="@+id/dog_name"
-            android:layout_width="76dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.75"
+            android:layout_weight="0.22"
             android:paddingBottom="8dp"
-            android:paddingLeft="8dp"
+            android:paddingLeft="14dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
             android:text="NAME"
-            android:textAlignment="viewEnd"
+            android:textAlignment="viewStart"
             android:textColor="#000000"
             android:textSize="18sp" />
 
@@ -30,19 +31,19 @@
             android:layout_height="wrap_content"
             android:id="@+id/text"/>-->
         <!-- walk date -->
-        <TextView
-            android:id="@+id/walk_date"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.16"
-            android:paddingBottom="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="8dp"
-            android:text="DATE"
-            android:textAlignment="viewStart"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/view_map"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_weight="0.15"
+            android:backgroundTint="#ccffffff"
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
+            android:text="@string/view_map"
+            android:textSize="12sp" />
 
 
     </LinearLayout>
@@ -54,7 +55,7 @@
 
         <!-- Start and End Time -->
         <LinearLayout
-            android:layout_width="137dp"
+            android:layout_width="109dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -67,22 +68,23 @@
 
                 <TextView
                     android:id="@+id/start_label"
-                    android:layout_width="57dp"
+                    android:layout_width="53dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="2dp"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingRight="4dp"
                     android:paddingTop="4dp"
-                    android:text="Start:"
+                    android:text="@string/start"
                     android:textAlignment="textEnd"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/start_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="2dp"
-                    android:paddingLeft="8dp"
+                    android:paddingLeft="4dp"
                     android:paddingRight="8dp"
                     android:paddingTop="4dp"
                     android:text="TIME"
@@ -99,22 +101,23 @@
 
                 <TextView
                     android:id="@+id/end_label"
-                    android:layout_width="57dp"
+                    android:layout_width="52dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="16dp"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingRight="4dp"
                     android:paddingTop="2dp"
-                    android:text="End:"
+                    android:text="@string/end"
                     android:textAlignment="textEnd"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/end_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="16dp"
-                    android:paddingLeft="8dp"
+                    android:paddingLeft="4dp"
                     android:paddingRight="8dp"
                     android:paddingTop="2dp"
                     android:text="TIME"
@@ -139,22 +142,23 @@
 
                 <TextView
                     android:id="@+id/distance_label"
-                    android:layout_width="98dp"
+                    android:layout_width="93dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="2dp"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingRight="4dp"
                     android:paddingTop="4dp"
-                    android:text="Distance:"
+                    android:text="@string/distance"
                     android:textAlignment="textEnd"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/distance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="2dp"
-                    android:paddingLeft="8dp"
+                    android:paddingLeft="4dp"
                     android:paddingRight="8dp"
                     android:paddingTop="4dp"
                     android:text="MILES"
@@ -171,22 +175,23 @@
 
                 <TextView
                     android:id="@+id/leader_label"
-                    android:layout_width="99dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="16dp"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingRight="4dp"
                     android:paddingTop="2dp"
-                    android:text="PackLeader:"
+                    android:text="@string/pack_leader"
                     android:textAlignment="textEnd"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/leader_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="16dp"
-                    android:paddingLeft="8dp"
+                    android:paddingLeft="4dp"
                     android:paddingRight="8dp"
                     android:paddingTop="2dp"
                     android:text="NAME"

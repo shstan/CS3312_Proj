@@ -4,15 +4,20 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:weightSum="1">
+
         <TextView
             android:id="@+id/upcoming_dog_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
+            android:layout_width="190dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.22"
+            android:paddingBottom="8dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
@@ -22,15 +27,16 @@
 
         <Button
             android:id="@+id/delete_btn"
-            android:layout_width="75dp"
-            android:layout_height="41dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="170dp"
-            android:layout_marginRight="15dp"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-            android:text="Delete" />
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_weight="0.31"
+            android:backgroundTint="#ccffffff"
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
+            android:text="@string/cancel_walk"
+            android:textSize="12sp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,7 +52,8 @@
             android:paddingRight="4dp"
             android:paddingTop="4dp"
             android:text="Pack Leader:"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/upcoming_leader_name"
@@ -61,17 +68,6 @@
             android:textColor="#000000" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/upcoming_walk_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="2dp"
-        android:text="DATE"
-        android:textColor="#000000" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -85,8 +81,9 @@
             android:paddingLeft="8dp"
             android:paddingRight="4dp"
             android:paddingTop="2dp"
-            android:text="Window:"
-            android:textColor="#000000" />
+            android:text="@string/time_label"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/upcoming_window"

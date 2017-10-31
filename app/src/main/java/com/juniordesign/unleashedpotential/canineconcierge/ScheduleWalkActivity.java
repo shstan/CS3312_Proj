@@ -126,7 +126,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 String ldrId = selectedLdr.substring(0, selectedLdr.indexOf(":"));
 
                 String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf(" ", selectedLdr.indexOf(":") + 2));
-                Walk newWalk = new Walk(ldrId, auth.getCurrentUser().getUid(), "Matt in the Hat", new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime), 0).getTime(), new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime) + 1, 0, 0).getTime(), new Location("Test",10,10),new Location("Test",10,10), 90.1);
+                Walk newWalk = new Walk(ldrId, auth.getCurrentUser().getUid(), "Fido", new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime), 0).getTime(), new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime) + 1, 0, 0).getTime(), new Location("Test",10,10),new Location("Test",10,10), 90.1);
 
                 displayAlertDialog(newWalk);
             }
