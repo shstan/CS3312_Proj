@@ -12,11 +12,9 @@ import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity  {
+
     private Button btnScheduleWalk, btnCompletedWalks, btnUpcomingWalks, btnLogout;
-
     private FirebaseAuth auth;
-    //private String userEmail;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
