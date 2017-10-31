@@ -1,7 +1,7 @@
 package com.juniordesign.unleashedpotential.canineconcierge;
 
 /**
- * Created by chris on 9/13/2017.
+ * Created by christy on 9/13/2017.
  */
 
 import android.content.Intent;
@@ -11,6 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * MainActivity - Dog Owner Portal
+ * Directs user to schedule walk, view completed walks, view upcoming walks
+ * Sign Out button
+ */
 public class MainActivity extends AppCompatActivity  {
 
     private Button btnScheduleWalk, btnCompletedWalks, btnUpcomingWalks, btnLogout;
@@ -26,6 +31,18 @@ public class MainActivity extends AppCompatActivity  {
         btnUpcomingWalks = (Button) findViewById(R.id.go_to_upcoming_walks);
         btnLogout = (Button) findViewById(R.id.sign_out);
 
+        //Check for authenticated user
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            //If no user, launch LoginActivity
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+        } else {
+            //TODO: If user is pack leader, direct to PackLeaderMainActivity
+            //If user is pack leader, launch PackLeaderMainActivity
+        }
+
+        //Button Listeners
         btnScheduleWalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,11 +64,6 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-        auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() == null) {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
-        }
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +72,5 @@ public class MainActivity extends AppCompatActivity  {
                 finish();
             }
         });
-
     }
-
 }

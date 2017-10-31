@@ -127,7 +127,7 @@ class packLeaderCompletedListAdapter extends BaseAdapter {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getRootView().getContext());
                 alertBuilder.setTitle(thisWalk.getDogName() + " " + displayWalkDate.format(thisWalk.getStartTime()))
                         .setNeutralButton("Close", null);
-                //TODO: Insert map
+                //TODO: Sprint 4 - Insert map
                 AlertDialog dialog = alertBuilder.create();
                 dialog.show();
             }
