@@ -29,6 +29,11 @@ import java.util.ArrayList;
  * Created by christy on 10/10/2017.
  */
 
+/**
+ * PackLeaderUpcomingWalksActivity - Pack Leader Portal
+ *
+ * displays all of the pack leader's upcoming walks with ability to cancel
+ */
 public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
 
     private ListView upcomingWalksList;
@@ -36,6 +41,7 @@ public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
     private FirebaseAuth auth;
     private DatabaseReference dbr;
     private ArrayList<Walk> walks;
+    private String packLeaderName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +55,35 @@ public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
         dbr = db.getReference("walks");
         upcomingWalksList = (ListView) findViewById(R.id.packleader_upcoming_walks_list);
 
+        //Get Pack Leaders display name to use in fetching their walk data
+        db.getReference("pack_leaders").orderByChild("email").equalTo(auth.getCurrentUser().getEmail())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot singlePackLeader : dataSnapshot.getChildren()) {
+                            PackLeader p_lead = singlePackLeader.getValue(PackLeader.class);
+                            packLeaderName = p_lead.getFirstName() + " " + p_lead.getLastName();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //TODO: Handle database error
+                    }
+                });
+
+        //Fetch all walk data
         dbr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //TODO: Get correct walks from db
                 for(DataSnapshot singleWalk : dataSnapshot.getChildren()) {
                     Walk addWalk = singleWalk.getValue(Walk.class);
                     addWalk.setWalkID(singleWalk.getKey());
-                    if(!addWalk.isCompleted()) {
-                        //walks.add(addWalk);
+                    if(!addWalk.isCompleted() && addWalk.getWalkerID().equals(packLeaderName)) {
+                        walks.add(addWalk);
                     }
                 }
+
                 upcomingWalksList.setAdapter(new packLeaderUpcomingListAdapter(PackLeaderUpcomingWalksActivity.this, walks));
             }
 
@@ -68,10 +92,14 @@ public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
 
             }
         });
-        //TODO iterate thru data to find the walks with users id (obtainable from auth.getCurrentUser().getUid())
     }
 }
 
+/**
+ * packLeaderUpcomingListAdapter
+ *
+ * used to create fill and add functionality to list view on PackLeaderUpcomingWalksActivity
+ */
 class packLeaderUpcomingListAdapter extends BaseAdapter {
 
     Context context;
@@ -80,6 +108,12 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater = null;
 
+    /**
+     * Constructor of packLeaderUpcomingListAdapter
+     *
+     * @param context Activity ListView is found within
+     * @param data Walk data to display in ListView
+     */
     public packLeaderUpcomingListAdapter(Context context, ArrayList<Walk> data) {
         this.context = context;
         this.data = data;
@@ -115,6 +149,7 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
         if (vi == null)
             vi = inflater.inflate(R.layout.upcoming_walk_row, null);
 
+        //Set TextViews within ListView rows
         TextView dogName = (TextView) vi.findViewById(R.id.upcoming_dog_name);
         dogName.setText(thisWalk.getDogName() + " " + displayWalkDate.format(thisWalk.getStartTime()));
 
@@ -126,6 +161,7 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
 
         Button deleteBtn = (Button)vi.findViewById(R.id.delete_btn);
 
+        //Confirmation dialogue on walk cancellation
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,6 +185,11 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
         return vi;
     }
 
+    /**
+     * Deletes walk from database after user confirmation
+     *
+     * @param position walk position in data array to be deleted
+     */
     public void deleteWalk(int position) {
         db.child("walks").child(data.get(position).getWalkID()).removeValue();
         data.clear();
