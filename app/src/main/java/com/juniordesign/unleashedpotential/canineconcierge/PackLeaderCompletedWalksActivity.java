@@ -69,6 +69,7 @@ public class PackLeaderCompletedWalksActivity extends AppCompatActivity {
                     }
                 });
 
+        //Fetch walk data
         db.getReference("walks").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -139,7 +140,7 @@ class packLeaderCompletedListAdapter extends BaseAdapter {
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.completed_walk_row, null);
-        
+
         final Walk thisWalk = data.get(position);
 
         //Set TextViews within ListView rows
