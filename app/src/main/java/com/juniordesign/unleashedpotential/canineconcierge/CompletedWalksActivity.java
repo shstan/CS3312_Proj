@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +12,31 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import static android.support.v4.content.ContextCompat.startActivity;
 
 /**
  * Created by christy on 9/13/2017.
  */
 
+/**
+ * CompletedWalksActivity - Dog Owner Portal
+ *
+ * displays all of the dog owner's completed walks and button to view map of walk
+ */
 public class CompletedWalksActivity extends AppCompatActivity {
 
+    private FirebaseDatabase db;
+    private FirebaseAuth auth;
+
     private ListView completedWalksList;
-    private DatabaseReference db;
     private ArrayList<Walk> walks;
 
     @Override
@@ -40,24 +45,23 @@ public class CompletedWalksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.completed_walks);
 
+        db = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
+        completedWalksList = (ListView) findViewById(R.id.completed_walks_list);
         walks = new ArrayList<Walk>();
-        db = FirebaseDatabase.getInstance().getReference();
 
-        db.child("walks").addListenerForSingleValueEvent(
+        //Fetch walk data
+        db.getReference("walks").addValueEventListener(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        //TODO: This is not getting completed walks by user
-                        //TODO: fetching all completed walks no matter who is logged in
                         for(DataSnapshot singleWalk : dataSnapshot.getChildren()) {
                             Walk addWalk = singleWalk.getValue(Walk.class);
-                            if( addWalk.isCompleted()) {
+                            if( addWalk.isCompleted() && auth.getCurrentUser().getUid().equals(addWalk.getClientID())) {
                                 walks.add(addWalk);
                             }
                         }
 
-                        completedWalksList = (ListView) findViewById(R.id.completed_walks_list);
-                        Log.d("TEST", walks.toString());
                         completedWalksList.setAdapter(new completedListAdapter(CompletedWalksActivity.this, walks));
                     }
                     @Override
@@ -69,6 +73,11 @@ public class CompletedWalksActivity extends AppCompatActivity {
     }
 }
 
+/**
+ * completedListAdapter
+ *
+ * used to create fill and add functionality to list view on CompletedWalksActivity
+ */
 class completedListAdapter extends BaseAdapter {
 
     Context context;
@@ -76,6 +85,16 @@ class completedListAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater = null;
 
+    private final SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yy");
+    private SimpleDateFormat displayWalkTimeStart = new SimpleDateFormat("hh:mm");
+    private SimpleDateFormat displayWalkTimeEnd = new SimpleDateFormat("hh:mm");
+
+    /**
+     * Constructor of completedListAdapter
+     *
+     * @param context Activity ListView is found within
+     * @param data Walk data to display in ListView
+     */
     public completedListAdapter(Context context, ArrayList<Walk> data) {
         this.context = context;
         this.data = data;
@@ -100,15 +119,13 @@ class completedListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yy");
-        SimpleDateFormat displayWalkTimeStart = new SimpleDateFormat("hh:mm");
-        SimpleDateFormat displayWalkTimeEnd = new SimpleDateFormat("hh:mm");
-
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.completed_walk_row, null);
+
         final Walk thisWalk = data.get(position);
 
+        //Set TextViews within ListView rows
         TextView dogName = (TextView) vi.findViewById(R.id.dog_name);
         dogName.setText(thisWalk.getDogName() + " " + displayWalkDate.format(thisWalk.getStartTime()));
 
@@ -126,6 +143,7 @@ class completedListAdapter extends BaseAdapter {
 
         Button mapBtn = (Button)vi.findViewById(R.id.view_map);
 
+        //Dialogue box to display map of the dog's walk
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
