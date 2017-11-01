@@ -36,10 +36,10 @@ import java.util.ArrayList;
  */
 public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
 
-    private ListView upcomingWalksList;
     private FirebaseDatabase db;
     private FirebaseAuth auth;
-    private DatabaseReference dbr;
+
+    private ListView upcomingWalksList;
     private ArrayList<Walk> walks;
     private String packLeaderName;
 
@@ -49,15 +49,14 @@ public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.packleader_upcoming_walks);
 
-        auth = FirebaseAuth.getInstance();
-        walks = new ArrayList<Walk>();
         db = FirebaseDatabase.getInstance();
-        dbr = db.getReference("walks");
+        auth = FirebaseAuth.getInstance();
         upcomingWalksList = (ListView) findViewById(R.id.packleader_upcoming_walks_list);
+        walks = new ArrayList<Walk>();
 
         //Get Pack Leaders display name to use in fetching their walk data
         db.getReference("pack_leaders").orderByChild("email").equalTo(auth.getCurrentUser().getEmail())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot singlePackLeader : dataSnapshot.getChildren()) {
@@ -73,7 +72,7 @@ public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
                 });
 
         //Fetch all walk data
-        dbr.addValueEventListener(new ValueEventListener() {
+        db.getReference("walks").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleWalk : dataSnapshot.getChildren()) {
@@ -105,6 +104,10 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
     Context context;
     private DatabaseReference db;
     ArrayList<Walk> data;
+
+    private final SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yyyy");
+    private SimpleDateFormat displayWalkTimeStart = new SimpleDateFormat("hh:mm");
+    private SimpleDateFormat displayWalkTimeEnd = new SimpleDateFormat("hh:mm");
 
     private static LayoutInflater inflater = null;
 
@@ -139,15 +142,12 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final Walk thisWalk = data.get(position);
-
-        final SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yyyy");
-        SimpleDateFormat displayWalkTimeStart = new SimpleDateFormat("hh:mm");
-        SimpleDateFormat displayWalkTimeEnd = new SimpleDateFormat("hh:mm");
-
         View vi = convertView;
-        if (vi == null)
+        if (vi == null) {
             vi = inflater.inflate(R.layout.upcoming_walk_row, null);
+        }
+
+        final Walk thisWalk = data.get(position);
 
         //Set TextViews within ListView rows
         TextView dogName = (TextView) vi.findViewById(R.id.upcoming_dog_name);

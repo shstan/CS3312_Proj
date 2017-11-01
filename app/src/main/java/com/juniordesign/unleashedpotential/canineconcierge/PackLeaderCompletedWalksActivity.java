@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,11 +27,19 @@ import java.util.ArrayList;
  * Created by christy on 10/10/2017.
  */
 
+/**
+ * PackLeaderUpcomingWalksActivity - Pack Leader Portal
+ *
+ * displays all of the pack leader's completed walks and button to view map of walk
+ */
 public class PackLeaderCompletedWalksActivity extends AppCompatActivity {
 
+    private FirebaseDatabase db;
+    private FirebaseAuth auth;
+
     private ListView completedWalksList;
-    private DatabaseReference db;
     private ArrayList<Walk> walks;
+    private String packLeaderName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,21 +47,38 @@ public class PackLeaderCompletedWalksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.packleader_completed_walks);
 
+        db = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
+        completedWalksList = (ListView) findViewById(R.id.packleader_completed_walks_list);
         walks = new ArrayList<Walk>();
-        db = FirebaseDatabase.getInstance().getReference();
 
-        db.child("walks").addListenerForSingleValueEvent(
+        //Get Pack Leaders display name to use in fetching their walk data
+        db.getReference("pack_leaders").orderByChild("email").equalTo(auth.getCurrentUser().getEmail())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot singlePackLeader : dataSnapshot.getChildren()) {
+                            PackLeader p_lead = singlePackLeader.getValue(PackLeader.class);
+                            packLeaderName = p_lead.getFirstName() + " " + p_lead.getLastName();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //TODO: Handle database error
+                    }
+                });
+
+        db.getReference("walks").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        //TODO: Get Completed walks by pack leader
                         for(DataSnapshot singleWalk : dataSnapshot.getChildren()) {
                             Walk addWalk = singleWalk.getValue(Walk.class);
-                            if(addWalk.isCompleted()) {
-                                //walks.add(addWalk);
+                            if(addWalk.isCompleted() && addWalk.getWalkerID().equals(packLeaderName)) {
+                                walks.add(addWalk);
                             }
                         }
-                        completedWalksList = (ListView) findViewById(R.id.packleader_completed_walks_list);
                         completedWalksList.setAdapter(new packLeaderCompletedListAdapter(PackLeaderCompletedWalksActivity.this, walks));
                     }
                     @Override
@@ -64,6 +90,11 @@ public class PackLeaderCompletedWalksActivity extends AppCompatActivity {
     }
 }
 
+/**
+ * packLeaderCompletedListAdapter
+ *
+ * used to create fill and add functionality to list view on PackLeaderCompletedWalksActivity
+ */
 class packLeaderCompletedListAdapter extends BaseAdapter {
 
     Context context;
@@ -71,6 +102,16 @@ class packLeaderCompletedListAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater = null;
 
+    private final SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yy");
+    private SimpleDateFormat displayWalkTimeStart = new SimpleDateFormat("hh:mm");
+    private SimpleDateFormat displayWalkTimeEnd = new SimpleDateFormat("hh:mm");
+
+    /**
+     * Constructor of packLeaderCompletedListAdapter
+     *
+     * @param context Activity ListView is found within
+     * @param data Walk data to display in ListView
+     */
     public packLeaderCompletedListAdapter(Context context, ArrayList<Walk> data) {
         this.context = context;
         this.data = data;
@@ -95,15 +136,13 @@ class packLeaderCompletedListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yy");
-        SimpleDateFormat displayWalkTimeStart = new SimpleDateFormat("hh:mm");
-        SimpleDateFormat displayWalkTimeEnd = new SimpleDateFormat("hh:mm");
-
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.completed_walk_row, null);
+        
         final Walk thisWalk = data.get(position);
 
+        //Set TextViews within ListView rows
         TextView dogName = (TextView) vi.findViewById(R.id.dog_name);
         dogName.setText(thisWalk.getDogName() + " " + displayWalkDate.format(thisWalk.getStartTime()));
 
@@ -121,6 +160,7 @@ class packLeaderCompletedListAdapter extends BaseAdapter {
 
         Button mapBtn = (Button)vi.findViewById(R.id.view_map);
 
+        //Dialogue box to display map of the dog's walk
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
