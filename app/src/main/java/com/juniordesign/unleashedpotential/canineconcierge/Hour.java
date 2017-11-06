@@ -17,6 +17,14 @@ public class Hour {
         this.selected = selected;
     }
 
+    public String toString() {
+        return "Hour{" +
+                "code=" + code +
+                ", name='" + name + '\'' +
+                ", selected=" + selected +
+                '}';
+    }
+
     public String getCode() {
         return code;
     }
