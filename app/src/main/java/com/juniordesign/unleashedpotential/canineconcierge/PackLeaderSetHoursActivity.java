@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -192,11 +193,12 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
      * @param day to be selected
      */
     private void indicateDaySelection(String day) {
+        Log.d("SetHours1", day);
         if (day != null) {
             for (Button a : buttonMap.values()) {
-                a.setBackgroundColor(Color.TRANSPARENT);
+                a.setBackgroundColor(Color.parseColor("#ccffffff"));
             }
-            buttonMap.get(day).setBackgroundColor(Color.YELLOW);
+            buttonMap.get(day).setBackgroundColor(Color.GRAY);
         }
         displayListView();
     }
