@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.support.annotation.NonNull;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -22,9 +21,7 @@ import com.google.firebase.database.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by chris on 10/10/2017.
@@ -32,138 +29,78 @@ import java.util.Set;
 
 public class PackLeaderSetHoursActivity extends AppCompatActivity {
 
-    PackLeaderSetHoursActivity.HourListAdapter dataAdapter = null;
+    private Button monday_but, tuesday_but, wednesday_but, thursday_but, friday_but, saturday_but, sunday_but;
+    private Map<String, Button> buttonMap = new HashMap<>();
 
-    //TODO: refresh hours view based on day selected
-    private Button monday_butt, tuesday_butt, wednesday_butt, thursday_butt, friday_butt, saturday_butt, sunday_butt;
+    private String[] daysOfWeek = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     String selectedDay = "Monday";
 
-    boolean dateChange = false;
+    PackLeaderSetHoursActivity.HourListAdapter dataAdapter = null;
+    public HashMap<String, ArrayList<Hour>> timeSelections = new HashMap<>();
 
-    private Map<String, ArrayList<Integer>> timeSelections = new HashMap<>();
-    private FirebaseAuth auth;
-    private FirebaseDatabase db;
-    private DatabaseReference dbr;
     private String uID;
-    private Map<String, Button> buttonMap;
-
-
-    //Need to be changed?
-//    private ArrayList<Integer> availHourSlots
-
-
-    /**
-     * The method used for toggling the selections.
-     * @param day the day selected.
-     * @param hourCode The hourcode clicked.
-     * @return If that time is set as avaliable slot, or not.
-     */
-    private boolean ToggleSelection(String day, int hourCode) {
-        if (day == null) {
-            Toast.makeText(getApplicationContext(),
-                    "Select a date first, please!",
-                    Toast.LENGTH_SHORT);
-//            Systwm.out.println
-            return false;
-        }
-        if(timeSelections.containsKey(day)) {
-            if (timeSelections.get(day).contains(hourCode)) {
-                timeSelections.get(day).remove(hourCode);
-                return false;
-            } else {
-                timeSelections.get(day).add(hourCode);
-            }
-        } else {
-            ArrayList<Integer> newHourSet = new ArrayList<>();
-            newHourSet.add(hourCode);
-            timeSelections.put(day, newHourSet);
-        }
-        return true;
-    }
-
-
-    private void indicateDaySelection(String day) {
-
-
-        if (day != null) {
-            for (Button a : buttonMap.values()) {
-                a.setBackgroundColor(Color.TRANSPARENT);
-            }
-            buttonMap.get(day).setBackgroundColor(Color.YELLOW);
-            dateChange = true;
-        }
-//        dbr.child()
-
-
-    }
-
+    private DatabaseReference dbrPackLeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.packleader_sethours);
-        auth = FirebaseAuth.getInstance();
-        uID = auth.getCurrentUser().getUid();
-        db = FirebaseDatabase.getInstance();
-        dbr = db.getReference("pack_leaders").child(uID);
 
+        uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        dbrPackLeader = FirebaseDatabase.getInstance().getReference("pack_leaders").child(uID).getRef();
 
+        //Set button onclick listeners
+        monday_but = (Button) findViewById(R.id.monday);
+        tuesday_but = (Button) findViewById(R.id.tuesday);
+        wednesday_but = (Button) findViewById(R.id.wednesday);
+        thursday_but = (Button) findViewById(R.id.thursday);
+        friday_but = (Button) findViewById(R.id.friday);
+        saturday_but = (Button) findViewById(R.id.saturday);
+        sunday_but = (Button) findViewById(R.id.sunday);
 
-
-        //displayListView();
-
-        monday_butt = (Button) findViewById(R.id.monday);
-        tuesday_butt = (Button) findViewById(R.id.tuesday);
-        wednesday_butt = (Button) findViewById(R.id.wednesday);
-        thursday_butt = (Button) findViewById(R.id.thursday);
-        friday_butt = (Button) findViewById(R.id.friday);
-        saturday_butt = (Button) findViewById(R.id.saturday);
-        sunday_butt = (Button) findViewById(R.id.sunday);
-
-        displayListView();
-        monday_butt.setOnClickListener(new View.OnClickListener() {
+        monday_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectedDay = "Monday";
                 indicateDaySelection(selectedDay);
             }
         });
-        tuesday_butt.setOnClickListener(new View.OnClickListener() {
+        tuesday_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectedDay = "Tuesday";
                 indicateDaySelection(selectedDay);
             }
         });
-        wednesday_butt.setOnClickListener(new View.OnClickListener() {
+        wednesday_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectedDay = "Wednesday";
                 indicateDaySelection(selectedDay);
             }
         });
-        thursday_butt.setOnClickListener(new View.OnClickListener() {
+        thursday_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectedDay = "Thursday";
                 indicateDaySelection(selectedDay);
             }
         });
-        friday_butt.setOnClickListener(new View.OnClickListener() {
+        friday_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectedDay = "Friday";
                 indicateDaySelection(selectedDay);
             }
         });
-        saturday_butt.setOnClickListener(new View.OnClickListener() {
+        saturday_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectedDay = "Saturday";
                 indicateDaySelection(selectedDay);
             }
         });
-        sunday_butt.setOnClickListener(new View.OnClickListener() {
+        sunday_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectedDay = "Sunday";
@@ -171,33 +108,126 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
             }
         });
 
+        //ButtonMap is used for setting the button's background color on selection
+        buttonMap.put("Monday", monday_but);
+        buttonMap.put("Tuesday", tuesday_but);
+        buttonMap.put("Wednesday", wednesday_but);
+        buttonMap.put("Thursday", thursday_but);
+        buttonMap.put("Friday", friday_but);
+        buttonMap.put("Saturday", saturday_but);
+        buttonMap.put("Sunday", sunday_but);
 
-        buttonMap = new HashMap<>();
-        buttonMap.put("Monday", monday_butt);
-        buttonMap.put("Tuesday", tuesday_butt);
-        buttonMap.put("Wednesday", wednesday_butt);
-        buttonMap.put("Thursday", thursday_butt);
-        buttonMap.put("Friday", friday_butt);
-        buttonMap.put("Saturday", saturday_butt);
-        buttonMap.put("Sunday", sunday_butt);
-        indicateDaySelection("Monday");
-        displayListView();
+        //Create filler array for listAdapter
+        ArrayList<Hour> hourList = new ArrayList<Hour>();
+        hourList = fillHourArray(hourList);
 
+        for (String day: daysOfWeek) {
+            timeSelections.put(day, cloneList(hourList));
+        }
+
+        //Fill timeSelection Map with user's current available hours
+        dbrPackLeader.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    HashMap p_lead = new HashMap((Map) dataSnapshot.getValue());
+                    for (String day: daysOfWeek) {
+                        if (p_lead.containsKey(day)) {
+                            ArrayList<Long> hrs = (ArrayList<Long>)p_lead.get(day);
+                            for (Long hr: hrs) {
+                                timeSelections.get(day).get((int)(long)hr).setSelected(true);
+                            }
+                        }
+                    }
+
+                    //this call is inside databaseReference because must be synchronous
+                    indicateDaySelection(selectedDay);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //TODO: Handle database error
+            }
+        });
     }
 
+    /**
+     * Clone list of hours for HashMap used to display in List Adapter
+     * @param list ArrayList<Hour> to be cloned
+     * @return clone of ArrayList<Hour>
+     */
+    public static ArrayList<Hour> cloneList(ArrayList<Hour> list) {
+        ArrayList<Hour> clone = new ArrayList<Hour>(list.size());
+        for (Hour item : list) clone.add(new Hour(item.getCode(), item.getName(), item.isSelected()));
+        return clone;
+    }
+
+    /**
+     * Save available hours to database and redirect user to MainActivity screen
+     */
     public void finishSetHours(View view) {
+        //TODO: Save HashMap data to db here
+        //Loop through HashMap, if selected = false, confirm not in db, if selected = true, confirm in db
+
+
         startActivity(new Intent(PackLeaderSetHoursActivity.this, PackLeaderMainActivity.class));
         finish();
     }
 
+    /**
+     * Send selectedDay's list info to the list adapter
+     */
     private void displayListView() {
+        //create an ArrayAdapter from the String Array
+        dataAdapter = new PackLeaderSetHoursActivity.HourListAdapter(this,
+                R.layout.hour_selection_row, timeSelections.get(selectedDay));
 
-        //TODO: get list of hours from db
+        // Assign adapter to hour_selection ListView
+        final ListView listView = (ListView) findViewById(R.id.hour_selection);
+        listView.setAdapter(dataAdapter);
+    }
 
+    /**
+     * Highlights which day is selected
+     * @param day to be selected
+     */
+    private void indicateDaySelection(String day) {
+        if (day != null) {
+            for (Button a : buttonMap.values()) {
+                a.setBackgroundColor(Color.TRANSPARENT);
+            }
+            buttonMap.get(day).setBackgroundColor(Color.YELLOW);
+        }
+        displayListView();
+    }
 
-
-        final ArrayList<Hour> hourList = new ArrayList<Hour>();
-        Hour hourTest = new Hour("10","10am - 11am",false);
+    /**
+     * Create filler array for ListAdapter
+     * @param hourList Array to fill
+     * @return ArrayList full of all 24 time slots
+     */
+    private static ArrayList<Hour> fillHourArray(ArrayList<Hour> hourList) {
+        Hour hourTest = new Hour("0","12am - 1am",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("1","1am - 2am",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("2","2am - 3am",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("3","3am - 4am",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("4","4am - 5am",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("5","5am - 6am",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("6","6am - 7am",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("7","7am - 8am",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("8","8am - 9am",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("9","9am - 10am",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("10","10am - 11am",false);
         hourList.add(hourTest);
         hourTest = new Hour("11","11am - 12pm",false);
         hourList.add(hourTest);
@@ -211,84 +241,35 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
         hourList.add(hourTest);
         hourTest = new Hour("16","4pm - 5pm",false);
         hourList.add(hourTest);
+        hourTest = new Hour("17","5pm - 6pm",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("18","6pm - 7pm",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("19","7pm - 8pm",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("20","8pm - 9pm",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("21","9pm - 10pm",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("20","8pm - 9pm",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("21","9pm - 10pm",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("22","10pm - 11pm",false);
+        hourList.add(hourTest);
+        hourTest = new Hour("23","11pm - 12am",false);
+        hourList.add(hourTest);
 
-        //create an ArrayAdapter from the String Array
-        dataAdapter = new PackLeaderSetHoursActivity.HourListAdapter(this,
-                R.layout.hour_selection_row, hourList);
-        final ListView listView = (ListView) findViewById(R.id.hour_selection);
-        // Assign adapter to ListView
-        listView.setAdapter(dataAdapter);
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                Hour hour = (Hour) parent.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(),
-                        "Clicked on Row: " + hour.getName(),
-                        Toast.LENGTH_LONG).show();
-
-//                if (ToggleSelection(selectedDay, hour.getCode())) {
-//                    hour.setSelected(true);
-////                    listView.getChildAt(position).setBackgroundColor(Color.BLUE);
-//                } else {
-//                    hour.setSelected(false);
-////                    listView.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
-//                }
-
-            }
-        });
-
-        dbr.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Integer> availHourSlots;
-                if (selectedDay != null) {
-                    if (dataSnapshot.child(selectedDay) != null) {
-                        HashMap<String, ArrayList<Integer>> pl
-                                = (HashMap<String, ArrayList<Integer>>) dataSnapshot.getValue();
-                        System.out.println(pl);
-                        availHourSlots = pl.get(selectedDay);
-                        int index = 0;
-                        for(Hour hour : hourList) {
-                            hour.setSelected(false);
-//                            ((CheckBox)listView.getChildAt(index)).setSelected(false);
-                            if (availHourSlots.contains(Integer.parseInt(hour.getCode()))) {
-                                hour.setSelected(true);
-//                                ((CheckBox)listView.getChildAt(index)).setSelected(true);
-                            }
-                            dataAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-
-//                CheckBox cb;
-//
-//                for(int i=0; i<listView.getChildCount();i++)
-//                {
-//                    cb = (CheckBox)listView.getChildAt(i);
-//                    cb.setChecked(false);
-//                    Integer.parseInt(cb.getTag())
-//                }
-
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),
-                        "Failed to Load Data!\n" + databaseError.getDetails(),
-                        Toast.LENGTH_SHORT);
-            }
-        });
-
-
-
+        return hourList;
     }
 
+
+    /**
+     * HourListAdapter
+     *
+     * Creates checkbox list for hour_selection
+     * Sends data back to PackLeaderSetHoursActivity
+     */
     class HourListAdapter extends ArrayAdapter<Hour> {
 
         private ArrayList<Hour> hourList;
@@ -319,7 +300,8 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
                 holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 convertView.setTag(holder);
-                //TODO: FInalize
+
+                //Set status of checkboxes based on data
                 if (hourList.get(position).isSelected()) {
                     holder.name.setChecked(true);
                 } else {
@@ -328,54 +310,17 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
 
                 holder.name.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
-                        //TODO: save selection to db
-
-//                        mDatabase
-
-
-                        //1. uncheck all the boxes if the date is changed.
-                        if (dateChange) {
-//                            ViewGroup vg = (ViewGroup) v.getParent();
-//                            for (int i = 0; i < vg.getChildCount(); i++) {
-//                                CheckBox ckb = (CheckBox) vg.getChildAt(i);
-//                                ckb.setChecked((timeSelections.get(selectedDay) != null) && timeSelections.get(selectedDay)
-//                                        .contains(((Hour) (ckb.getTag())).getCode()));
-//
-//                            }
-                        }
-
-                        dateChange = false;
-
-                        //2. Use the timeSelection
-
-
-
-
                         CheckBox cb = (CheckBox) v ;
-                        if (selectedDay == null) {
-                            ((CheckBox) v).setChecked(false);
-                            Toast.makeText(getApplicationContext(),
-                                    "Select a date first, please!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
                         Hour hour = (Hour) cb.getTag();
-                        Toast.makeText(getApplicationContext(),
-                                "Clicked on Checkbox: " + cb.getText() +
-                                        " is " + cb.isChecked() + "\nIndex:" + position,
-                                Toast.LENGTH_LONG).show();
                         hour.setSelected(cb.isChecked());
-                        ToggleSelection(selectedDay, Integer.parseInt(hour.getCode()));
-                        indicateDaySelection(selectedDay);
-                        System.out.println("timeSelections = " + timeSelections);
                     }
                 });
 
-            }
-            else {
+            } else {
                 holder = (PackLeaderSetHoursActivity.HourListAdapter.ViewHolder) convertView.getTag();
             }
 
+            //Set Text of checkbox list
             Hour hour = hourList.get(position);
             holder.code.setText(hour.getCode());
             holder.name.setText(hour.getName());
