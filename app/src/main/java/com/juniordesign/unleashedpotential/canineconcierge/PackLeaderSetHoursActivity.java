@@ -136,7 +136,7 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
                         if (p_lead.containsKey(day)) {
                             ArrayList<Long> hrs = (ArrayList<Long>)p_lead.get(day);
                             for (Long hr: hrs) {
-                                timeSelections.get(day).get((int)(long)hr).setSelected(true);
+                                if(hr != null) timeSelections.get(day).get((int)(long)hr).setSelected(true);
                             }
                         }
                     }
@@ -167,9 +167,19 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
      * Save available hours to database and redirect user to MainActivity screen
      */
     public void finishSetHours(View view) {
-        //TODO: Save HashMap data to db here
-        //Loop through HashMap, if selected = false, confirm not in db, if selected = true, confirm in db
+        //List of hours to fill and save to db by day of week
+        ArrayList<Integer> hrsList = new ArrayList<Integer>();
 
+        for (String day: daysOfWeek) {
+            hrsList.clear();
+            for (Hour hr: timeSelections.get(day)) {
+                if (hr.isSelected()) {
+                    hrsList.add(Integer.parseInt(hr.getCode()));
+                }
+            }
+            //Save available hours to db
+            dbrPackLeader.child(day).setValue(hrsList);
+        }
 
         startActivity(new Intent(PackLeaderSetHoursActivity.this, PackLeaderMainActivity.class));
         finish();
@@ -193,7 +203,6 @@ public class PackLeaderSetHoursActivity extends AppCompatActivity {
      * @param day to be selected
      */
     private void indicateDaySelection(String day) {
-        Log.d("SetHours1", day);
         if (day != null) {
             for (Button a : buttonMap.values()) {
                 a.setBackgroundColor(Color.parseColor("#ccffffff"));
