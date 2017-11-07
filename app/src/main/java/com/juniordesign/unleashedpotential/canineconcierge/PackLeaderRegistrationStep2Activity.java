@@ -90,16 +90,13 @@ public class PackLeaderRegistrationStep2Activity extends AppCompatActivity {
                                     //Once user is authenticated, create profile based on UserID in firebase
                                     String uID = auth.getCurrentUser().getUid();
                                     db.child("pack_leaders").child(uID).setValue(newLeader);
-                                    startActivity(new Intent(PackLeaderRegistrationStep2Activity.this, PackLeaderMainActivity.class));
+                                    startActivity(new Intent(PackLeaderRegistrationStep2Activity.this, PackLeaderRegistrationSetHoursActivity.class));
+                                    finish();
                                 }
                             }
                         });
             }
         });
 
-    }
-
-    public void goToRegisterStep3(View view) {
-        startActivity(new Intent(PackLeaderRegistrationStep2Activity.this, PackLeaderRegistrationSetHoursActivity.class));
     }
 }
