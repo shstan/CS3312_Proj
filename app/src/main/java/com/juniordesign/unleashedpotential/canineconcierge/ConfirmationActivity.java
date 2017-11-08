@@ -11,6 +11,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * ConfirmationActivity
+ *
+ * Displays payment amount and asks for user confirmation before payment is processed
+ */
 public class ConfirmationActivity extends AppCompatActivity {
 
     @Override
@@ -18,7 +23,6 @@ public class ConfirmationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation);
 
-        //Getting Intent
         Intent intent = getIntent();
 
 

@@ -32,14 +32,7 @@ public class PackLeaderMainActivity extends AppCompatActivity {
         btnUpcomingWalks = (Button) findViewById(R.id.go_to_upcoming_walks);
         btnLogout = (Button) findViewById(R.id.sign_out);
 
-        //TODO: Check for authenticated user
         auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() == null) {
-            //startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            //finish();
-        } else {
-            //If user is pack leader, launch PackLeaderMainActivity
-        }
 
         //Button Listeners
         btnSetHours.setOnClickListener(new View.OnClickListener() {

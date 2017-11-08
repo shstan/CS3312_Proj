@@ -55,18 +55,24 @@ public class ScheduleWalkActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.schedule_walk);
+
+        db = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
+        DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("pack_leaders").orderByChild("pack_leaders").getRef();
+
+        btnSchedule = (Button) findViewById(R.id.finish_schedule_walk);
+        cal = (CalendarView) findViewById(R.id.calendarView);
+        pack_leaders = new HashMap();
+
+        //Check for authenticated user
         if (auth.getCurrentUser() == null) {
             startActivity(new Intent(ScheduleWalkActivity.this, LoginActivity.class));
         } else {
             System.out.println(auth.getCurrentUser().getUid());
         }
-        setContentView(R.layout.schedule_walk);
-        db = FirebaseDatabase.getInstance().getReference();
-        btnSchedule = (Button) findViewById(R.id.finish_schedule_walk);
-        cal = (CalendarView) findViewById(R.id.calendarView);
-        pack_leaders = new HashMap();
-        DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("pack_leaders").orderByChild("pack_leaders").getRef();
+
+        //Fetch pack leader available hours data
         dbr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -80,6 +86,8 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 System.out.println("Failed");
             }
         });
+
+        //Fetch existing walks
         DatabaseReference schedWalks = FirebaseDatabase.getInstance().getReference("walks");
         schedWalks.addValueEventListener(new ValueEventListener() {
             @Override
@@ -95,8 +103,13 @@ public class ScheduleWalkActivity extends AppCompatActivity {
 
             }
         });
+
+        //Set up Calendar
         long date = cal.getDate();
         cal.setMinDate(date);
+        cal.setFirstDayOfWeek(2);
+
+        //Refresh pack leader view upon calendar date selection change
         cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
@@ -109,7 +122,8 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 displayAvailablePackLeaders();
             }
         });
-        cal.setFirstDayOfWeek(2);
+
+        //Set up pack leaders list below calendar
         packLeadersList = (ListView) findViewById(R.id.pack_leaders_list);
         packLeadersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -119,21 +133,34 @@ public class ScheduleWalkActivity extends AppCompatActivity {
             }
         });
 
+        //Schedule button onClickListener - display confirmation message and create new Walk
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String ldrId = selectedLdr.substring(0, selectedLdr.indexOf(":"));
+                if (selectedLdr == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Please Select a date before continuing!",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    String ldrId = selectedLdr.substring(0, selectedLdr.indexOf(":"));
 
-                String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf(" ", selectedLdr.indexOf(":") + 2));
-                Walk newWalk = new Walk(ldrId, auth.getCurrentUser().getUid(), "Fido", new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime), 0).getTime(), new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime) + 1, 0, 0).getTime(), new Location("Test",10,10),new Location("Test",10,10), 90.1);
+                    String startTime = selectedLdr.substring(selectedLdr.indexOf(":") + 2, selectedLdr.indexOf(" ", selectedLdr.indexOf(":") + 2));
+                    Walk newWalk = new Walk(ldrId, auth.getCurrentUser().getUid(), "Fido", new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime), 0).getTime(), new GregorianCalendar(selYr, selMonth, selDay, Integer.parseInt(startTime) + 1, 0, 0).getTime(), new Location("Test",10,10),new Location("Test",10,10), 90.1);
 
-                displayAlertDialog(newWalk);
+                    displayAlertDialog(newWalk);
+                }
             }
         });
 
     }
 
+    /**
+     * Get String value of selected day of week
+     * @param day
+     * @return String name of day
+     */
     public String getStringDayOfWeek(int day) {
         switch(day) {
             case 0:
@@ -154,6 +181,14 @@ public class ScheduleWalkActivity extends AppCompatActivity {
                 return null;
         }
     }
+
+    /**
+     * Convert day info into readable format
+     * @param year
+     * @param month
+     * @param dayOfMonth
+     * @return
+     */
     public int getDay(int year, int month, int dayOfMonth) {
         int day = (year % 100)/4;
         day += dayOfMonth;
@@ -168,11 +203,12 @@ public class ScheduleWalkActivity extends AppCompatActivity {
         day = day + m3 - (2 * (year / 100)) + (year % 100) + (year / 400);
         return (day % 7);
     }
+
+    /**
+     * Send pack leader data to listView
+     */
     public void displayAvailablePackLeaders() {
         List<String> availablePackLeaders = new ArrayList<String>();
-        // This is the array adapter, it takes the context of the activity as a
-        // first parameter, the type of list view as a second parameter and your
-        // array as a third parameter.
         availablePackLeaders = getAvailablePackLeaders(currDay);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
@@ -181,6 +217,13 @@ public class ScheduleWalkActivity extends AppCompatActivity {
 
         packLeadersList.setAdapter(arrayAdapter);
     }
+
+    /**
+     * Remove available pack leader from list if already has a walk scheduled at that time
+     * @param ldr pack leader
+     * @param hrs hrs to remove from display
+     * @return ArrayList<Long> of hours to remove
+     */
     public ArrayList<Long> removeScheduled(HashMap ldr, ArrayList<Long> hrs) {
         if (walks == null) {
             return new ArrayList<Long>();
@@ -202,6 +245,11 @@ public class ScheduleWalkActivity extends AppCompatActivity {
         return remove;
     }//1506952800000 1507557600000 1506956400000
 
+    /**
+     * Display available pack leaders in list below calendar
+     * @param day
+     * @return ArrayList<Sring>
+     */
     public ArrayList<String> getAvailablePackLeaders(String day) {
         ArrayList<String> ret = new ArrayList<>();
         ArrayList<Long> dontInclude;
@@ -236,7 +284,11 @@ public class ScheduleWalkActivity extends AppCompatActivity {
         return ret;
     }
 
-
+    /**
+     * Display confirmation dialog when about to finalize scheduling
+     * Directs user to payment page upon confirmation
+     * @param newWalk walk to be scheduled
+     */
     public void displayAlertDialog(final Walk newWalk) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ScheduleWalkActivity.this);
         alertBuilder.setTitle("Confirm dog walk?")
