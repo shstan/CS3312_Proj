@@ -14,6 +14,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
+/**
+ * ProfileActivity
+ *
+ * ***Code not in use*** will be used when user profile page created
+ */
 public class ProfileActivity extends Activity {
     private EditText fullName, address, phoneNumber,email;
     private Button btnPasswordReset, btnBack;

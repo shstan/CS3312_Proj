@@ -28,6 +28,11 @@ import java.util.Map;
  * Created by chris on 10/10/2017.
  */
 
+/**
+ * PackLeaderSetHoursActivity - Pack Leader portal
+ *
+ * Pack leader can set available hours for dog walks
+ */
 public class PackLeaderSetHoursActivity extends AppCompatActivity {
 
     private Button monday_but, tuesday_but, wednesday_but, thursday_but, friday_but, saturday_but, sunday_but;

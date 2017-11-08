@@ -12,10 +12,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-// This activity is currently inaccessible
-// Will add side navigation to get to account page
-// Account page includes this functionality + edit personal info
 
+/**
+ * ProfileActionsActivity
+ *
+ * ***Code not in use*** will be used when user profile page created
+ * Will add side navigation to get to account page
+ */
 public class ProfileActionsActivity extends AppCompatActivity {
     private Button btnLogout, btnPasswordReset, btnProfile;
     private FirebaseAuth auth;
