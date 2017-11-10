@@ -12,6 +12,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * RegisterStep1Activity - Dog Owner portal
+ *
+ * Step 1 of dog owner registration - input name, email, pass, confirm pass
+ */
 public class RegisterStep1Activity extends AppCompatActivity {
     private EditText inputEmail, inputConfirmPassword, inputFirstName, inputLastName, inputPassword;
     private Button btnSignUp;
@@ -22,9 +27,11 @@ public class RegisterStep1Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_step_1);
+
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
+        //Get UI elements
         btnSignUp = (Button) findViewById(R.id.to_register_step_2);
         inputEmail = (EditText) findViewById(R.id.email_address);
         inputFirstName = (EditText) findViewById(R.id.first_name);
@@ -32,11 +39,13 @@ public class RegisterStep1Activity extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.password);
         inputConfirmPassword = (EditText) findViewById(R.id.confirm_password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
         //Intent to switch to MainActivity
         Intent mainInt = new Intent(RegisterStep1Activity.this, MainActivity.class);
         //Intent to switch to LoginActivity
         final Intent loginInt = new Intent(RegisterStep1Activity.this, LoginActivity.class);
 
+        //Set up onclick listener to move to next step, validates input
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,8 +106,10 @@ public class RegisterStep1Activity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
-
-
+    /**
+     * Move user to step 2 of process
+     * @param view
+     */
     public void goToRegisterStep2(View view) {
         startActivity(new Intent(RegisterStep1Activity.this, RegisterStep2Activity.class));
     }

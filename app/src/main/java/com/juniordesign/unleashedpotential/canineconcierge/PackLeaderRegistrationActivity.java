@@ -12,6 +12,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * PackLeaderRegistrationActivity - Pack Leader Portal
+ *
+ * Step 1 of pack leader registration, input name, email, pass, confirm pass
+ */
 public class PackLeaderRegistrationActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputConfirmPassword, inputFirstName, inputLastName, inputPassword;
@@ -33,6 +38,7 @@ public class PackLeaderRegistrationActivity extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.packleader_password);
         inputConfirmPassword = (EditText) findViewById(R.id.packleader_confirmpassword);
 
+        //Set up onclick listener to go to step 2, data validation on user input
         step2_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +92,10 @@ public class PackLeaderRegistrationActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Go to step 2 of pack leader registration
+     * @param view
+     */
     public void goToRegisterStep2(View view) {
         startActivity(new Intent(PackLeaderRegistrationActivity.this, PackLeaderRegistrationStep2Activity.class));
     }

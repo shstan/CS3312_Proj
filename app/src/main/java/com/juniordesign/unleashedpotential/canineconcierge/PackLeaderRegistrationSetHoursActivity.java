@@ -28,6 +28,11 @@ import java.util.Map;
  * Created by chris on 10/10/2017.
  */
 
+/**
+ * PackLeaderRegistrationSetHoursActivity - Pack Leader Portal
+ *
+ * Step 3 of pack leader registration process - set available hours
+ */
 public class PackLeaderRegistrationSetHoursActivity extends AppCompatActivity {
 
     private Button monday_but, tuesday_but, wednesday_but, thursday_but, friday_but, saturday_but, sunday_but;
