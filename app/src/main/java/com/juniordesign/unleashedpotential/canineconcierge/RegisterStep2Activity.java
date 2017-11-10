@@ -17,6 +17,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * RegisterStep2Activity - Dog Owner Portal
+ *
+ * Step 2 of dog owner registration progress, input address, phone
+ */
 public class RegisterStep2Activity extends AppCompatActivity {
 
     private FirebaseAuth auth;
@@ -33,6 +38,7 @@ public class RegisterStep2Activity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         inputZip = (EditText) findViewById(R.id.zip_input);
         inputState = (EditText) findViewById(R.id.state_input);
+
         //Id says password but it is the phone number input, when I switch the id to phone_number it messes the layout
         //up and I dont want to mess with it xD
         inputPhoneNumber = (EditText) findViewById(R.id.password);
@@ -41,6 +47,7 @@ public class RegisterStep2Activity extends AppCompatActivity {
         inputCity = (EditText) findViewById(R.id.city_input);
         btnSignUp = (Button) findViewById(R.id.button2);
 
+        //Set up onclick listener with data validation of user input
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,6 +84,7 @@ public class RegisterStep2Activity extends AppCompatActivity {
                 }
 
                 final User newUser = new User(email, firstName, lastName, zip, state, phoneNumber, address1, address2, city);
+
                 //create user/ user profile
                 auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(RegisterStep2Activity.this, new OnCompleteListener<AuthResult>() {

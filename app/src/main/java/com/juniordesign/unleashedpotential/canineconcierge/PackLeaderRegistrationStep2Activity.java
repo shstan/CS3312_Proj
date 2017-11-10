@@ -16,6 +16,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * PackLeaderRegistrationStep2Activity - Pack Leader Portal
+ *
+ * Step 2 of pack leader registration process, input address and phone
+ */
 public class PackLeaderRegistrationStep2Activity extends AppCompatActivity {
 
     private FirebaseAuth auth;
@@ -32,14 +37,13 @@ public class PackLeaderRegistrationStep2Activity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         inputZip = (EditText) findViewById(R.id.packleader_zip);
         inputState = (EditText) findViewById(R.id.packleader_state);
-        //Id says password but it is the phone number input, when I switch the id to phone_number it messes the layout
-        //up and I dont want to mess with it xD
         inputPhoneNumber = (EditText) findViewById(R.id.packleader_phone);
         inputAddress1 = (EditText) findViewById(R.id.packleader_addr1);
         inputAddress2 = (EditText) findViewById(R.id.packleader_addr2);
         inputCity = (EditText) findViewById(R.id.packleader_city);
         btnSignUp = (Button) findViewById(R.id.continue_step3);
 
+        //Set up onclick listener for moving to final step of process, data validation on user input
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
