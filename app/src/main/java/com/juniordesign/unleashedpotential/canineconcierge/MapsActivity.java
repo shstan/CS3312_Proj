@@ -1,20 +1,22 @@
 package com.juniordesign.unleashedpotential.canineconcierge;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import com.google.android.gms.location.LocationListener;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.location.Location;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -22,10 +24,16 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import android.Manifest;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -38,13 +46,29 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+    private DatabaseReference db;
+    private FirebaseAuth auth;
+    private int markerID;
+    private String mapWalkID;
+    private FirebaseDatabase database;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        db = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
+        markerID = 0;
+        //mapWalkID = db.child("map_walks").push().getKey();
 
+//        for (int i = 0; i < 10; i++) {
+//            LatLng latLng = new LatLng(10, 10);
+//            db.child("map_walks").child(mapWalkID).child("" + markerID).setValue(latLng);
+//            markerID++;
+//        }
         getSupportActionBar().setTitle("Live Location Tracking");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -68,15 +92,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        LatLng test1 = new LatLng(-35, 151);
-        mMap.addMarker(new MarkerOptions().position(test1).title("Marker in Sydney"));
-        LatLng test2 = new LatLng(-36, 151);
-        mMap.addMarker(new MarkerOptions().position(test2).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
 
         //try some code
 
@@ -97,6 +112,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+        database.getReference("map_walks").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot latLong : dataSnapshot.getChildren()) {
+                    HashMap latl = new HashMap((Map) latLong.getValue());
+                    Set<String> keys = latl.keySet();
+                    Double lat = (Double)latl.get("latitude");
+                    Double longit = (Double)latl.get("longitude");
+                    LatLng loc = new LatLng(lat, longit);
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(loc);
+                    markerOptions.title("walkpoint");
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                    mMap.addMarker(markerOptions);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //TODO: Handle database error
+            }
+        });
     }
 
 
@@ -154,12 +191,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         markerOptions.position(latLng);
         markerOptions.title("Current Position");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-        mCurrLocationMarker = mMap.addMarker(markerOptions);
+        //db.child("map_walks").child("" + markerID).setValue(latLng);
+        markerID++;
+       //mCurrLocationMarker = mMap.addMarker(markerOptions);
         System.out.println(latLng);
-        Toast.makeText(getApplicationContext(), "You are in: " + latLng.toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "You are in: " + latLng.toString(), Toast.LENGTH_SHORT).show();
 
         //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
 
     }
 
