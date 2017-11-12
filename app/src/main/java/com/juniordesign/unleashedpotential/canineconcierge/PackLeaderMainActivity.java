@@ -45,7 +45,7 @@ public class PackLeaderMainActivity extends AppCompatActivity {
         btnCompletedWalks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PackLeaderMainActivity.this, PackLeaderCompletedWalksActivity.class));
+                startActivity(new Intent(PackLeaderMainActivity.this, MapsActivity.class));
             }
         });
 

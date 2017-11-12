@@ -1,6 +1,7 @@
 package com.juniordesign.unleashedpotential.canineconcierge;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -62,7 +63,7 @@ public class CompletedWalksActivity extends AppCompatActivity {
                             }
                         }
 
-                        completedWalksList.setAdapter(new completedListAdapter(CompletedWalksActivity.this, walks));
+                        completedWalksList.setAdapter(new completedListAdapter(new Intent(CompletedWalksActivity.this, MapsActivity.class), CompletedWalksActivity.this, walks));
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -82,7 +83,7 @@ class completedListAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<Walk> data;
-
+    Intent intent;
     private static LayoutInflater inflater = null;
 
     private final SimpleDateFormat displayWalkDate = new SimpleDateFormat("MM/dd/yy");
@@ -95,9 +96,10 @@ class completedListAdapter extends BaseAdapter {
      * @param context Activity ListView is found within
      * @param data Walk data to display in ListView
      */
-    public completedListAdapter(Context context, ArrayList<Walk> data) {
+    public completedListAdapter(Intent intent, Context context, ArrayList<Walk> data) {
         this.context = context;
         this.data = data;
+        this.intent = intent;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -150,7 +152,7 @@ class completedListAdapter extends BaseAdapter {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getRootView().getContext());
                 alertBuilder.setTitle(thisWalk.getDogName() + " " + displayWalkDate.format(thisWalk.getStartTime()))
                             .setNeutralButton("Close", null);
-                //TODO: Sprint 4 - Insert map
+                context.startActivity(intent);
                 AlertDialog dialog = alertBuilder.create();
                 dialog.show();
             }
