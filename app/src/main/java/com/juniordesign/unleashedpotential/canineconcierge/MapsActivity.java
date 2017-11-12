@@ -155,6 +155,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         markerOptions.title("Current Position");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
+        System.out.println(latLng);
+        Toast.makeText(getApplicationContext(), "You are in: " + latLng.toString(), Toast.LENGTH_SHORT).show();
 
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
