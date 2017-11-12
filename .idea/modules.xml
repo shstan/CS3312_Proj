@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CS3312_Proj.iml" filepath="$PROJECT_DIR$/CS3312_Proj.iml" />
-      <module fileurl="file://$PROJECT_DIR$/CanineConcierge.iml" filepath="$PROJECT_DIR$/CanineConcierge.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Canine_Concierge.iml" filepath="$PROJECT_DIR$/Canine_Concierge.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
