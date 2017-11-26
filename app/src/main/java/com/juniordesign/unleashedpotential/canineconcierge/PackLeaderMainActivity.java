@@ -57,13 +57,6 @@ public class PackLeaderMainActivity extends AppCompatActivity {
             }
         });
 
-        btnStartWalk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(PackLeaderMainActivity.this, MapsActivity.class));
-            }
-        });
-
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
