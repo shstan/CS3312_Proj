@@ -45,4 +45,6 @@
     <string name="end">End:</string>
     <string name="pack_leader">Pack Leader:</string>
     <string name="distance">Distance:</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
