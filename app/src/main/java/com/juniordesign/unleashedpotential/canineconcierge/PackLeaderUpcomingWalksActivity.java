@@ -2,6 +2,7 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -144,7 +145,7 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         if (vi == null) {
-            vi = inflater.inflate(R.layout.upcoming_walk_row, null);
+            vi = inflater.inflate(R.layout.upcoming_walk_row_packleader, null);
         }
 
         final Walk thisWalk = data.get(position);
@@ -159,9 +160,8 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
         TextView endTime = (TextView) vi.findViewById(R.id.upcoming_window);
         endTime.setText("" + displayWalkTimeStart.format(thisWalk.getStartTime()) + " - " + displayWalkTimeEnd.format(thisWalk.getEndTime()));
 
-        Button deleteBtn = (Button)vi.findViewById(R.id.delete_btn);
-
         //Confirmation dialogue on walk cancellation
+        Button deleteBtn = (Button)vi.findViewById(R.id.delete_btn);
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,6 +181,16 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
                     nbutton.setTextColor(Color.BLUE);
             }
         });
+
+        //Begin live tracking of dog walk
+        Button startBtn = (Button)vi.findViewById(R.id.start_walk);
+        startBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, MapsActivity.class));
+                }
+            }
+        );
 
         return vi;
     }

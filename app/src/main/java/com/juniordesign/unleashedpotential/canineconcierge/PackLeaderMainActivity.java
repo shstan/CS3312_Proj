@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class PackLeaderMainActivity extends AppCompatActivity {
 
-    private Button btnSetHours, btnCompletedWalks, btnUpcomingWalks, btnLogout;
+    private Button btnSetHours, btnCompletedWalks, btnUpcomingWalks, btnStartWalk, btnLogout;
     private FirebaseAuth auth;
 
     @Override
@@ -30,6 +30,7 @@ public class PackLeaderMainActivity extends AppCompatActivity {
         btnSetHours = (Button) findViewById(R.id.go_to_set_hours);
         btnCompletedWalks = (Button) findViewById(R.id.go_to_completed_walks);
         btnUpcomingWalks = (Button) findViewById(R.id.go_to_upcoming_walks);
+        btnStartWalk = (Button) findViewById(R.id.start_walk);
         btnLogout = (Button) findViewById(R.id.sign_out);
 
         auth = FirebaseAuth.getInstance();

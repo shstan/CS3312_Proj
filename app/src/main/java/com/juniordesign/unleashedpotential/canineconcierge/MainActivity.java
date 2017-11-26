@@ -7,13 +7,12 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -33,7 +32,6 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         btnScheduleWalk = (Button) findViewById(R.id.go_to_schedule_walk);
         btnCompletedWalks = (Button) findViewById(R.id.go_to_completed_walks);
         btnUpcomingWalks = (Button) findViewById(R.id.go_to_upcoming_walks);
