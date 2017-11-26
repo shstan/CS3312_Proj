@@ -1,8 +1,8 @@
 package com.juniordesign.unleashedpotential.canineconcierge;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,7 +118,7 @@ class completedListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.completed_walk_row, null);
@@ -147,12 +147,13 @@ class completedListAdapter extends BaseAdapter {
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getRootView().getContext());
-                alertBuilder.setTitle(thisWalk.getDogName() + " " + displayWalkDate.format(thisWalk.getStartTime()))
-                            .setNeutralButton("Close", null);
+//                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getRootView().getContext());
+//                alertBuilder.setTitle(thisWalk.getDogName() + " " + displayWalkDate.format(thisWalk.getStartTime()))
+//                            .setNeutralButton("Close", null);
+                Intent viewMapIntent = new Intent(context, ViewWalkMapActivity.class);
+                viewMapIntent.putExtra("walkID", data.get(position).getWalkID());
+                context.startActivity(viewMapIntent);
                 //TODO: Sprint 4 - Insert map
-                AlertDialog dialog = alertBuilder.create();
-                dialog.show();
             }
         });
 

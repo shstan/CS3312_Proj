@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +42,7 @@ public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
     private ListView upcomingWalksList;
     private ArrayList<Walk> walks;
     private String packLeaderName;
+    private Button startWalk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class PackLeaderUpcomingWalksActivity extends AppCompatActivity{
         auth = FirebaseAuth.getInstance();
         upcomingWalksList = (ListView) findViewById(R.id.packleader_upcoming_walks_list);
         walks = new ArrayList<Walk>();
+        startWalk = (Button) findViewById(R.id.start_walk);
 
         //Get Pack Leaders display name to use in fetching their walk data
         db.getReference("pack_leaders").orderByChild("email").equalTo(auth.getCurrentUser().getEmail())
@@ -187,7 +188,10 @@ class packLeaderUpcomingListAdapter extends BaseAdapter {
         startBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    context.startActivity(new Intent(context, MapsActivity.class));
+//                    Toast.makeText(context, "" + position + "" + data.get(position), Toast.LENGTH_LONG).show();
+                    Intent mapIntent = new Intent(context, LiveTrackingMapsActivity.class);
+                    mapIntent.putExtra("walkID", data.get(position).getWalkID());
+                    context.startActivity(mapIntent);
                 }
             }
         );
