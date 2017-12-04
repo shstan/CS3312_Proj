@@ -1,5 +1,5 @@
-# CS3312_Proj
-Canine Concierge is an app that helps users to walk their canine companions by arrangement.
+# CS3312_Proj - Canine Concierge
+A mobile application for Lisa Hafner's business, Canine Concierge, which allows dog owners and pack leaders to coordinate dog walks.
 
 ## Release Notes
 *New Features:*
