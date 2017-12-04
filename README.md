@@ -1,7 +1,7 @@
 # CS3312_Proj - Canine Concierge
 A mobile application for Lisa Hafner's business, Canine Concierge, which allows dog owners and pack leaders to coordinate dog walks.
 
-## Release Notes
+## Release 1.0.0
 *New Features:*
 - Login/Register
 - Dog Owner Portal
@@ -23,7 +23,7 @@ A mobile application for Lisa Hafner's business, Canine Concierge, which allows 
 - Dog Owners and Pack Leader unable to edit account information (name/address/phone)
 
 
-## Installation Information
+## Installation Guide
 #### Dog Owners and Pack Leaders:
 Install the Canine Concierge app through the Google Play Store
 
