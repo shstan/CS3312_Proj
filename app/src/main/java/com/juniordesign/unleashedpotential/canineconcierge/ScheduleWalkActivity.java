@@ -299,6 +299,7 @@ public class ScheduleWalkActivity extends AppCompatActivity {
 
                         startActivity(new Intent(ScheduleWalkActivity.this, PayActivity.class));
                         String walkID = db.child("walks").push().getKey();
+                        newWalk.setWalkID(walkID);
                         db.child("walks").child(walkID).setValue(newWalk);
 
                     }})

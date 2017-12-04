@@ -3,6 +3,7 @@ package com.juniordesign.unleashedpotential.canineconcierge;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -17,6 +20,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -25,17 +29,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks,
+public class LiveTrackingMapsActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
@@ -51,6 +48,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int markerID;
     private String mapWalkID;
     private FirebaseDatabase database;
+    private Button finishWalk;
 
 
 
@@ -62,8 +60,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         markerID = 0;
-        //mapWalkID = db.child("map_walks").push().getKey();
-
+        mapWalkID = getIntent().getStringExtra("walkID");
+        finishWalk = findViewById(R.id.finishWalk);
 //        for (int i = 0; i < 10; i++) {
 //            LatLng latLng = new LatLng(10, 10);
 //            db.child("map_walks").child(mapWalkID).child("" + markerID).setValue(latLng);
@@ -74,6 +72,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        finishWalk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LiveTrackingMapsActivity.this, PackLeaderMainActivity.class));
+            }
+        });
     }
 
 
@@ -112,28 +116,33 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
-        database.getReference("map_walks").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot latLong : dataSnapshot.getChildren()) {
-                    HashMap latl = new HashMap((Map) latLong.getValue());
-                    Set<String> keys = latl.keySet();
-                    Double lat = (Double)latl.get("latitude");
-                    Double longit = (Double)latl.get("longitude");
-                    LatLng loc = new LatLng(lat, longit);
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(loc);
-                    markerOptions.title("walkpoint");
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-                    mMap.addMarker(markerOptions);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                //TODO: Handle database error
-            }
-        });
+//        database.getReference("map_walks").addValueEventListener(new ValueEventListener() {
+//            boolean zoom = true;
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for(DataSnapshot latLong : dataSnapshot.getChildren()) {
+//                    HashMap latl = new HashMap((Map) latLong.getValue());
+//                    Set<String> keys = latl.keySet();
+//                    Double lat = (Double)latl.get("latitude");
+//                    Double longit = (Double)latl.get("longitude");
+//                    LatLng loc = new LatLng(lat, longit);
+//                    MarkerOptions markerOptions = new MarkerOptions();
+//                    markerOptions.position(loc);
+//                    markerOptions.title("walkpoint");
+//                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+//                    mMap.addMarker(markerOptions);
+//                    if(zoom) {
+//                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 18));
+//                        zoom = false;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                //TODO: Handle database error
+//            }
+//        });
     }
 
 
@@ -191,14 +200,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         markerOptions.position(latLng);
         markerOptions.title("Current Position");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-        //db.child("map_walks").child("" + markerID).setValue(latLng);
+        db.child("map_walks").child(mapWalkID).child("" + markerID).setValue(latLng);
         markerID++;
-       //mCurrLocationMarker = mMap.addMarker(markerOptions);
+        mCurrLocationMarker = mMap.addMarker(markerOptions);
         System.out.println(latLng);
-        //Toast.makeText(getApplicationContext(), "You are in: " + latLng.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "You are in: " + latLng.toString(), Toast.LENGTH_SHORT).show();
 
         //move map camera
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,18));
 
     }
 
@@ -221,7 +230,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(MapsActivity.this,
+                                ActivityCompat.requestPermissions(LiveTrackingMapsActivity.this,
                                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                         MY_PERMISSIONS_REQUEST_LOCATION );
                             }

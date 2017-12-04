@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_GPS" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -171,9 +171,13 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:name=".LiveTrackingMapsActivity"
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".ViewWalkMapActivity"
+            android:label="@string/title_activity_view_walk_map"></activity>
     </application>
 
 </manifest>
