@@ -1,11 +1,33 @@
 # CS3312_Proj
 Canine Concierge is an app that helps users to walk their canine companions by arrangement.
 
-### Installation Information
-##### Dog Owners and Pack Leaders:
+## Release Notes
+*New Features:*
+- Login/Register
+- Dog Owner Portal
+  - Schedule Walk - select date/time and pack leader
+  - Make Payment through PayPal Services
+  - View Upcoming Walks - functionality to cancel walk
+  - View Completed Walks - functionality to view walk’s map
+- Pack Leader Portal
+  - Set Available Hours
+  - View Upcoming Walks - functionality to cancel walk
+  - View Completed Walks - functionality to view walk’s map
+- Live Asset Tracking - Pack Leader creates the map by tapping “Start Walk” in upcoming walks page when walk begins
+
+*Bug Fixes:* N/A
+
+*Known Bugs/Defects:*
+- Pack Leaders unable to set vacation days
+- Dog Owners and Pack Leaders unable to reset password
+- Dog Owners and Pack Leader unable to edit account information (name/address/phone)
+
+
+## Installation Information
+#### Dog Owners and Pack Leaders:
 Install the Canine Concierge app through the Google Play Store
 
-##### Future Software Maintainers:
+#### Future Software Maintainers:
 *Pre-requisites:*
 - Install Android Studio
 - Install & Download Android Device Emulator (if no access to Android phone)
