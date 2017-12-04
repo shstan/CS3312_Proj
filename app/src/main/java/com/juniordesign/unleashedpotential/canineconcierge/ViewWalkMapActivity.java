@@ -56,7 +56,7 @@ public class ViewWalkMapActivity extends AppCompatActivity implements OnMapReady
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_view_walk_map);
         db = FirebaseDatabase.getInstance().getReference();
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
